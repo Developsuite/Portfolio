@@ -1,0 +1,548 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================
+   CSS Custom Properties
+   ============================ */
+:root {
+  --navy-950: #000000;
+  --navy-900: #050505;
+  --navy-800: #0a0a0a;
+  --navy-700: #111111;
+  --electric: #007BFF;
+  --cyan: #00D6FF;
+  --aigreen: #7CFFB2;
+}
+
+/* ============================
+   Base Styles
+   ============================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--navy-950);
+}
+
+body {
+  background-color: var(--navy-950);
+  color: rgba(255, 255, 255, 0.9);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================
+   Scrollbar Styling
+   ============================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 123, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 123, 255, 0.5);
+}
+
+/* ============================
+   Utility Classes
+   ============================ */
+@layer components {
+  /* Glassmorphism panels */
+  .glass {
+    background: rgba(7, 17, 31, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-strong {
+    background: rgba(7, 17, 31, 0.8);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card {
+    background: rgba(10, 22, 40, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(0, 123, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 123, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #ffffff 0%, #00D6FF 50%, #007BFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-green {
+    background: linear-gradient(135deg, #7CFFB2 0%, #00D6FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.3), 0 0 60px rgba(0, 123, 255, 0.1);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 214, 255, 0.3), 0 0 60px rgba(0, 214, 255, 0.1);
+  }
+
+  /* Section gradient backgrounds */
+  .section-gradient {
+    background: radial-gradient(ellipse at 50% 0%, rgba(0, 123, 255, 0.05) 0%, transparent 60%);
+  }
+
+  .section-gradient-alt {
+    background: radial-gradient(ellipse at 50% 100%, rgba(0, 214, 255, 0.04) 0%, transparent 60%);
+  }
+
+  /* Code-style tag */
+  .code-tag {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    font-size: 0.75rem;
+    color: var(--aigreen);
+    background: rgba(124, 255, 178, 0.08);
+    padding: 0.25rem 0.625rem;
+    border-radius: 6px;
+    border: 1px solid rgba(124, 255, 178, 0.15);
+    letter-spacing: 0.02em;
+  }
+
+  /* Animated underline for links */
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--electric), var(--cyan));
+    transition: width 0.3s ease;
+  }
+
+  .link-underline:hover::after {
+    width: 100%;
+  }
+}
+
+/* ============================
+   Hero Canvas Section
+   ============================ */
+.hero-canvas-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.hero-canvas-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.hero-frame-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  user-select: none;
+  pointer-events: none;
+  /* Let the browser use its best upscaling algorithm */
+  image-rendering: auto;
+}
+
+/* Old loader CSS removed — now handled by Framer Motion split-open animation */
+
+/* ============================
+   Career Timeline — 3D Bulb
+   ============================ */
+.tl-section {
+  position: relative;
+  padding: 7rem 1.5rem 5rem;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse 50% 35% at 70% 30%,
+    rgba(168, 85, 247, 0.035) 0%,
+    transparent 70%
+  );
+}
+
+/* ── Heading ──────────────────── */
+.tl-heading {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.tl-heading-text {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: pre-line;
+}
+
+.tl-heading-accent {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 40%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Body: cards left, rail right ─ */
+.tl-body {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  gap: 3rem;
+}
+
+/* ── Cards column (left) ─────── */
+.tl-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Individual card ─────────── */
+.tl-card {
+  position: relative;
+  padding: 1.75rem 2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tl-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(168, 85, 247, 0.15);
+  box-shadow: 0 4px 30px rgba(168, 85, 247, 0.06);
+  transform: translateX(4px);
+}
+
+/* Year badge */
+.tl-year-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(168, 85, 247, 0.7);
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-year-badge--now {
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.15);
+}
+
+.tl-card-title {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.25;
+  transition: color 0.3s ease;
+}
+
+.tl-card:hover .tl-card-title {
+  color: rgba(255, 255, 255, 1);
+}
+
+.tl-card-subtitle {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #a855f7;
+  letter-spacing: 0.02em;
+}
+
+.tl-card-desc {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.7;
+  transition: color 0.3s ease;
+}
+
+.tl-card:hover .tl-card-desc {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Dot that sits on the rail ── */
+.tl-line-dot {
+  position: absolute;
+  right: -3.15rem;
+  top: 2rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(168, 85, 247, 0.25);
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  z-index: 3;
+  transition: all 0.3s ease;
+}
+
+.tl-card:hover .tl-line-dot {
+  background: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+}
+
+.tl-line-dot--active {
+  background: rgba(168, 85, 247, 0.6);
+  border-color: #c084fc;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+}
+
+/* ── Rail (right side) ────────── */
+.tl-rail {
+  position: relative;
+  width: 2px;
+  flex-shrink: 0;
+}
+
+/* Faint track */
+.tl-rail-track {
+  position: absolute;
+  inset: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+
+/* Glowing fill */
+.tl-rail-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    #c084fc 0%,
+    #a855f7 30%,
+    #7c3aed 70%,
+    #6366f1 100%
+  );
+  box-shadow:
+    0 0 6px 1px rgba(168, 85, 247, 0.5),
+    0 0 16px 3px rgba(168, 85, 247, 0.2);
+  z-index: 1;
+}
+
+/* ───────────────────────────────
+   3D BULB ORB
+   ─────────────────────────────── */
+.tl-bulb-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Layer 1 — Outer bloom (big soft glow) */
+.tl-bulb-bloom {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.25) 0%,
+    rgba(168, 85, 247, 0.08) 40%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  animation: bulbBreath 3s ease-in-out infinite;
+}
+
+/* Layer 2 — Mid glow */
+.tl-bulb-mid {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(192, 132, 252, 0.6) 0%,
+    rgba(168, 85, 247, 0.3) 50%,
+    transparent 80%
+  );
+  filter: blur(4px);
+  animation: bulbBreath 3s ease-in-out infinite 0.5s;
+}
+
+/* Layer 3 — Core (bright, sharp) */
+.tl-bulb-core {
+  position: absolute;
+  inset: 18px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(216, 180, 254, 0.9) 30%,
+    rgba(168, 85, 247, 0.7) 60%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 8px 2px rgba(255, 255, 255, 0.5),
+    0 0 20px 4px rgba(192, 132, 252, 0.5),
+    0 0 40px 8px rgba(168, 85, 247, 0.25);
+}
+
+/* Layer 4 — Lens-flare streaks */
+.tl-bulb-flare {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 70%,
+    transparent 100%
+  );
+}
+
+.tl-bulb-flare--h {
+  width: 80px;
+  height: 2px;
+  opacity: 0.6;
+}
+
+.tl-bulb-flare--v {
+  width: 2px;
+  height: 80px;
+  opacity: 0.4;
+}
+
+/* Breathing animation */
+@keyframes bulbBreath {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.8;
+  }
+}
+
+/* ============================
+   Responsive
+   ============================ */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 12px;
+  }
+
+  /* Timeline mobile */
+  .tl-section {
+    padding: 4rem 1rem 3rem;
+  }
+
+  .tl-heading {
+    margin-bottom: 3rem;
+  }
+
+  .tl-body {
+    flex-direction: column;
+    gap: 0;
+    padding-left: 1.5rem;
+  }
+
+  /* Rail moves to left edge */
+  .tl-rail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+  }
+
+  .tl-cards {
+    gap: 1rem;
+  }
+
+  .tl-card {
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+  }
+
+  /* Move dot to left rail */
+  .tl-line-dot {
+    right: auto;
+    left: -2.05rem;
+    top: 1.5rem;
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Shrink the bulb on mobile */
+  .tl-bulb-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tl-bulb-bloom {
+    inset: -18px;
+  }
+
+  .tl-bulb-flare--h {
+    width: 50px;
+  }
+
+  .tl-bulb-flare--v {
+    height: 50px;
+  }
+}
+
