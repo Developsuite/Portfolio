@@ -45,7 +45,7 @@ export default function HeroCanvas() {
   // Preload frames lazily to drastically speed up initial page load
   useEffect(() => {
     let loadedCount = 0;
-    const CRITICAL_FRAMES = 15;
+    const CRITICAL_FRAMES = 35; // Increased to cache more frames before unlocking
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let framesLoaded = false;
     let minTimeElapsed = false;
@@ -56,11 +56,11 @@ export default function HeroCanvas() {
       }
     };
 
-    // Force loader to show for at least 2 seconds for the cinematic effect (reduced from 3s to make it snappy)
+    // Force loader to show for at least 3.5 seconds to allow background caching
     setTimeout(() => {
       minTimeElapsed = true;
       checkDone();
-    }, 2000);
+    }, 3500);
 
     const onLoad = () => {
       loadedCount++;
