@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const projects = [
   { id: "01", image: "/projects_images/1.png" },
@@ -14,6 +15,7 @@ const projects = [
 export default function ProjectsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isMobile = useIsMobile();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -67,8 +69,8 @@ export default function ProjectsSection() {
       <div className="max-w-6xl mx-auto relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 40 }}
+          whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="flex flex-row items-center justify-center gap-4 md:gap-8 mb-12 md:mb-16 xl:mb-20 w-full transition-all duration-300"
@@ -88,8 +90,8 @@ export default function ProjectsSection() {
 
         {/* Carousel Container */}
         <motion.div 
-          initial={{ opacity: 0, y: 50, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={isMobile ? false : { opacity: 0, y: 50, scale: 0.95 }}
+          whileInView={isMobile ? undefined : { opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[250px] sm:min-h-[350px] lg:min-h-[400px] xl:min-h-[500px] transition-all duration-300"

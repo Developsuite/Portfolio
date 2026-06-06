@@ -24,13 +24,13 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position: position, fov: fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
+        dpr={[1, isMobile ? 1 : 2]}
         gl={{ alpha: transparent }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <Suspense fallback={<Html center><div className="text-white tracking-widest text-sm animate-pulse whitespace-nowrap">LOADING 3D ID...</div></Html>}>
           <ambientLight intensity={Math.PI} />
-          <Physics gravity={gravity} timeStep={1 / 60}>
+          <Physics gravity={gravity}>
             <Band isMobile={isMobile} />
           </Physics>
           <Environment blur={0.75}>
@@ -117,11 +117,11 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
     if (fixed.current) {
       [j1, j2].forEach(ref => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
-        const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())));
-        ref.current.lerped.lerp(
-          ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
-        );
+        
+        const distance = ref.current.lerped.distanceTo(ref.current.translation());
+        // We clamp the alpha to 1 to prevent exploding if delta is too large, but we use the true distance for smooth easing
+        const alpha = Math.min(1, delta * (minSpeed + distance * (maxSpeed - minSpeed)));
+        ref.current.lerped.lerp(ref.current.translation(), alpha);
       });
       curve.points[0].copy(j3.current.translation());
       curve.points[1].copy(j2.current.lerped);

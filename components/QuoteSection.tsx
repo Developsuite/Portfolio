@@ -2,14 +2,17 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function QuoteSection() {
+  const isMobile = useIsMobile();
+
   return (
     <section className="relative py-8 md:py-16 px-5 lg:px-8 bg-black z-20 overflow-hidden">
       <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={isMobile ? false : { opacity: 0, y: 50, scale: 0.95 }}
+          whileInView={isMobile ? undefined : { opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex flex-col lg:flex-row bg-[#0a0a0a] rounded-[24px] lg:rounded-[32px] overflow-hidden border border-white/10 shadow-2xl"
@@ -54,7 +57,7 @@ export default function QuoteSection() {
           {/* Image Container (Right Side) */}
           <div className="flex-1 relative min-h-[200px] sm:min-h-[300px] lg:min-h-[400px] overflow-hidden bg-black lg:border-l border-t lg:border-t-0 border-white/5">
             <Image
-              src="/kinz.png"
+              src="/mobile_view/1.webp"
               alt="Kinz ul eman"
               fill
               className="object-cover object-center"

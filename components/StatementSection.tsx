@@ -2,20 +2,23 @@
 
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const Word = ({
   children,
   progress,
   range,
+  isMobile,
 }: {
   children: string;
   progress: MotionValue<number>;
   range: [number, number];
+  isMobile: boolean;
 }) => {
   const opacity = useTransform(progress, range, [0.15, 1]);
   return (
     <motion.span
-      style={{ opacity }}
+      style={isMobile ? { opacity: 1 } : { opacity }}
       className="inline-block transition-opacity duration-300"
     >
       {children}
@@ -27,6 +30,7 @@ export default function StatementSection() {
   const text = "I architect intelligent AI/ML models and scalable full-stack applications that turn complex problems into seamless, high-impact solutions.";
   const words = text.split(" ");
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -40,8 +44,8 @@ export default function StatementSection() {
         
         {/* "Tag" - Hello! */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 20 }}
+          whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex items-center gap-4 mb-4 md:mb-6"
         >
@@ -58,7 +62,7 @@ export default function StatementSection() {
             const start = i / words.length;
             const end = start + 4 / words.length;
             return (
-              <Word key={i} progress={scrollYProgress} range={[start, end]}>
+              <Word key={i} progress={scrollYProgress} range={[start, end]} isMobile={isMobile}>
                 {word}
               </Word>
             );

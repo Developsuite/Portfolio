@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 const TOTAL_FRAMES = 161;
 const FRAME_PATH = "/SkilledSectionimages/ezgif-frame-";
@@ -18,9 +18,17 @@ export default function SkillsCanvas() {
   const rafRef = useRef<number>(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Preload frames lazily to avoid blocking initial page load
   useEffect(() => {
+    if (isMobile) return;
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     
     // Load first frame immediately
@@ -60,9 +68,10 @@ export default function SkillsCanvas() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [isMobile]);
 
   const updateFrame = useCallback((frameIndex: number) => {
+    if (isMobile) return;
     if (frameIndex === currentFrameRef.current && frameIndex !== 0) return;
     currentFrameRef.current = frameIndex;
 
@@ -78,9 +87,10 @@ export default function SkillsCanvas() {
         ctx.drawImage(img, 0, 0);
       }
     }
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
+    if (isMobile) return;
     const handleScroll = () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
@@ -110,21 +120,24 @@ export default function SkillsCanvas() {
       window.removeEventListener("scroll", handleScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [updateFrame]);
+  }, [updateFrame, isMobile]);
 
   return (
     <section
-      className="relative w-full z-10"
-      style={{ height: "400vh" }} // Provides the scroll distance needed for 161 frames
+      className={isMobile ? "relative w-full z-10 bg-black" : "relative w-full z-10"}
+      style={{ height: isMobile ? "100vh" : "400vh" }} // Provides the scroll distance needed for 161 frames
       ref={containerRef}
     >
-      <div className="sticky top-0 w-full h-screen overflow-hidden bg-black">
-        {/* Native <canvas> — highly performant pixel rendering */}
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full"
-          style={{ objectFit: "cover" }}
-        />
+      <div className={isMobile ? "absolute inset-0 w-full h-full overflow-hidden" : "sticky top-0 w-full h-screen overflow-hidden bg-black"}>
+        {isMobile ? (
+          <img src="/mobile_view/3.webp" alt="Skills Mobile" className="w-full h-full object-cover" />
+        ) : (
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full"
+            style={{ objectFit: "cover" }}
+          />
+        )}
         
         {/* Gradients to seamlessly blend this section with the rest of the dark site */}
         <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black to-transparent pointer-events-none" />

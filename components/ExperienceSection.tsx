@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const experiences = [
   {
@@ -45,6 +46,7 @@ const experiences = [
 export default function ExperienceSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isMobile = useIsMobile();
 
   return (
     <section
@@ -55,8 +57,8 @@ export default function ExperienceSection() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={isMobile ? false : { opacity: 0, y: 30 }}
+          animate={isMobile ? { opacity: 1, y: 0 } : (isInView ? { opacity: 1, y: 0 } : {})}
           transition={{ duration: 0.7 }}
           className="text-center mb-16 space-y-4"
         >
@@ -78,8 +80,8 @@ export default function ExperienceSection() {
           {experiences.map((exp, idx) => (
             <motion.div
               key={exp.role}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={isMobile ? false : { opacity: 0, y: 40 }}
+              animate={isMobile ? { opacity: 1, y: 0 } : (isInView ? { opacity: 1, y: 0 } : {})}
               transition={{
                 duration: 0.6,
                 delay: idx * 0.15,

@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const affiliations = [
   {
@@ -22,6 +23,7 @@ const affiliations = [
 
 export default function SplineTimelineSection() {
   const headerRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -38,7 +40,7 @@ export default function SplineTimelineSection() {
         
         {/* Header - Matches "My Skills" strictly */}
         <motion.div
-          style={{ opacity: headingOpacity, y: headingY, scale: headingScale }}
+          style={isMobile ? undefined : { opacity: headingOpacity, y: headingY, scale: headingScale }}
           className="flex flex-row items-center justify-center gap-4 md:gap-8 pb-16 w-full relative z-30"
         >
           <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-r from-transparent to-white/40" />
@@ -72,8 +74,8 @@ export default function SplineTimelineSection() {
           
           {/* Spline 3D Scene - Centered */}
           <div 
-            className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 scale-75 md:scale-100 origin-center"
-            style={{
+            className={`absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center ${isMobile ? '' : 'scale-75 md:scale-100'}`}
+            style={isMobile ? undefined : {
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
@@ -89,8 +91,8 @@ export default function SplineTimelineSection() {
             
             {/* Card 1: Top Left */}
             <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={isMobile ? false : { opacity: 0, x: -30 }}
+              whileInView={isMobile ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
               className="pointer-events-auto absolute top-[5%] md:top-[35%] left-[5%] md:left-[2%] lg:left-[2%] group"
@@ -108,10 +110,10 @@ export default function SplineTimelineSection() {
               </svg>
             </motion.div>
 
-            {/* Card 2: Middle Right */}
+            {/* Card 2: Bottom Right */}
             <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={isMobile ? false : { opacity: 0, x: 30 }}
+              whileInView={isMobile ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="pointer-events-auto absolute top-[25%] md:top-[55%] -translate-y-1/2 right-[5%] md:right-[2%] lg:right-[2%] group flex flex-col items-end"
@@ -131,8 +133,8 @@ export default function SplineTimelineSection() {
 
             {/* Card 3: Bottom Left */}
             <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={isMobile ? false : { opacity: 0, x: -30 }}
+              whileInView={isMobile ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="pointer-events-auto absolute bottom-[5%] md:bottom-auto md:top-[75%] left-[5%] md:left-[2%] lg:left-[2%] group"

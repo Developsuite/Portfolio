@@ -23,6 +23,13 @@ export default function HeroCanvas() {
   const [showLoader, setShowLoader] = useState(true);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Smoothly animate the progress number
   useEffect(() => {
@@ -46,6 +53,12 @@ export default function HeroCanvas() {
 
   // Preload ALL frames before allowing the page to open to guarantee zero scroll lag
   useEffect(() => {
+    if (isMobile) {
+      // On mobile, skip heavy frame preloading to ensure zero lag
+      const timer = setTimeout(() => setIsLoaded(true), 1500);
+      return () => clearTimeout(timer);
+    }
+
     const SKILLS_PRELOAD_COUNT = 80;
     const TOTAL_TO_LOAD = TOTAL_FRAMES + SKILLS_PRELOAD_COUNT;
     let loadedCount = 0;
@@ -124,10 +137,11 @@ export default function HeroCanvas() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [isMobile]);
 
   // Scroll-to-frame mapping
   const updateFrame = useCallback((frameIndex: number) => {
+    if (isMobile) return;
     if (frameIndex === currentFrameRef.current && frameIndex !== 0) return; // Allow initial draw (index 0)
     currentFrameRef.current = frameIndex;
 
@@ -145,10 +159,11 @@ export default function HeroCanvas() {
         ctx.drawImage(img, 0, 0);
       }
     }
-  }, []);
+  }, [isMobile]);
 
   // Scroll handler
   useEffect(() => {
+    if (isMobile) return;
     const handleScroll = () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
@@ -177,7 +192,7 @@ export default function HeroCanvas() {
       window.removeEventListener("scroll", handleScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [updateFrame]);
+  }, [updateFrame, isMobile]);
 
   /* ---- Shared loader content (rendered inside BOTH halves) ---- */
   const loaderContent = (
@@ -229,7 +244,7 @@ export default function HeroCanvas() {
         </span>
         <div className="relative flex items-center gap-2">
           <span className="text-sm md:text-base font-mono text-white/80 tabular-nums">
-            {displayProgress}%
+            {isMobile ? 100 : displayProgress}%
           </span>
           {/* Blinking cursor block */}
           <motion.div
@@ -245,8 +260,8 @@ export default function HeroCanvas() {
   return (
     <section
       id="home"
-      className="hero-canvas-wrapper"
-      style={{ height: "400vh" }}
+      className={isMobile ? "relative w-full h-[100vh] bg-black overflow-hidden" : "hero-canvas-wrapper relative"}
+      style={{ height: isMobile ? "100vh" : "400vh" }}
       ref={containerRef}
     >
       {/* ============ Split-Open Loading Screen ============ */}
@@ -285,13 +300,16 @@ export default function HeroCanvas() {
       </AnimatePresence>
 
       {/* ============ Sticky Frame Display ============ */}
-      <div className="hero-canvas-sticky">
-        {/* Native <canvas> — extremely performant image rendering */}
-        <canvas
-          ref={canvasRef}
-          className="hero-frame-img"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
+      <div className={isMobile ? "absolute inset-0 w-full h-full" : "hero-canvas-sticky"}>
+        {isMobile ? (
+          <img src="/mobile_view/2.webp" alt="Hero Mobile" className="w-full h-full object-cover" />
+        ) : (
+          <canvas
+            ref={canvasRef}
+            className="hero-frame-img"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        )}
 
         {/* Bottom fade — cinematic merge into content */}
         <div className="absolute bottom-0 left-0 right-0 h-[35vh] pointer-events-none z-[2]"

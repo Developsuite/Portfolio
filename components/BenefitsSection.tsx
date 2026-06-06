@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const benefits = [
   {
@@ -27,12 +28,13 @@ const benefits = [
 
 export default function BenefitsSection() {
   const [activeId, setActiveId] = useState(benefits[0].id);
+  const isMobile = useIsMobile();
 
   return (
     <section className="relative w-full py-12 md:py-16 xl:py-24 px-6 lg:px-8 bg-black text-white overflow-hidden z-20">
       <motion.div 
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={isMobile ? false : { opacity: 0, y: 40 }}
+        whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-[940px] xl:max-w-6xl mx-auto transition-all duration-300"
@@ -66,8 +68,8 @@ export default function BenefitsSection() {
             return (
               <motion.div
                 key={benefit.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={isMobile ? false : { opacity: 0, y: 30 }}
+                whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
                 className={`relative rounded-[20px] xl:rounded-[24px] overflow-hidden cursor-pointer group transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] flex-shrink-0 lg:flex-shrink

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // Dynamically import Lanyard with SSR disabled to prevent Canvas rendering issues
 const Lanyard = dynamic(() => import("./Lanyard"), { ssr: false });
@@ -16,10 +17,12 @@ const aiTags = [
 ];
 
 export default function LanyardSection() {
+  const isMobile = useIsMobile();
+
   return (
     <motion.section 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={isMobile ? false : { opacity: 0 }}
+      whileInView={isMobile ? undefined : { opacity: 1 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1.2, ease: "easeOut" }}
       className="relative w-full h-[75vh] md:h-[100vh] bg-black overflow-hidden border-t border-white/10"

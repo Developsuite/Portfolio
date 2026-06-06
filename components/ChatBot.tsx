@@ -158,7 +158,7 @@ export default function ChatBot() {
       {/* Floating Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-8 z-[999] flex items-center gap-3 cursor-pointer"
+        className="fixed bottom-4 md:bottom-6 left-4 md:left-8 z-[999] flex items-center gap-3 cursor-pointer"
         style={{
           background: "transparent",
           border: "none",
@@ -169,7 +169,7 @@ export default function ChatBot() {
         aria-label="Toggle chatbot"
       >
         <motion.div
-          className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+          className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shrink-0"
           style={{
             border: "1.5px solid rgba(255,255,255,0.3)",
           }}
@@ -184,8 +184,7 @@ export default function ChatBot() {
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                width="22"
-                height="22"
+                className="w-5 h-5 md:w-6 md:h-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="white"
@@ -199,7 +198,7 @@ export default function ChatBot() {
                 key="icon"
                 src="/chatbot-icon.png"
                 alt="Chat with AI"
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
@@ -209,7 +208,7 @@ export default function ChatBot() {
             )}
           </AnimatePresence>
         </motion.div>
-        <span className="text-white/70 text-sm font-medium tracking-wide">
+        <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide">
           Let&apos;s Talk
         </span>
       </motion.button>
@@ -222,9 +221,9 @@ export default function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="fixed bottom-24 left-8 z-[998] w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-[75px] md:bottom-24 left-4 right-4 md:left-8 md:right-auto z-[998] md:w-[380px] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
             style={{
-              height: "min(580px, calc(100vh - 140px))",
+              height: "min(580px, calc(100vh - 100px))",
               background: "rgba(10, 10, 15, 0.95)",
               backdropFilter: "blur(20px)",
               border: `1px solid ${t.windowBorder}`,
