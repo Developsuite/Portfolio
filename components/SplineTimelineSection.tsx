@@ -66,12 +66,17 @@ export default function SplineTimelineSection() {
         >
           <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-r from-transparent to-white/40" />
           
-          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white/10 uppercase tracking-[0.2em] md:tracking-[0.5em] select-none pointer-events-none relative inline-block">
+          <h2 
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-none font-black text-white text-center whitespace-nowrap"
+            style={{
+              fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
+              letterSpacing: '-0.04em',
+            }}
+          >
             Leadership
-            <span className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent bg-clip-text text-transparent">
-              Leadership
-            </span>
           </h2>
+          
+          <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-l from-transparent to-white/40" />
         </motion.div>
 
         {/* Content Container - Centered Spline with Floating Cards */}
