@@ -17,6 +17,8 @@ export default function SkillsCanvas() {
   const currentFrameRef = useRef(0);
   const rafRef = useRef<number>(0);
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   // Preload frames lazily to avoid blocking initial page load
   useEffect(() => {
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
@@ -27,9 +29,7 @@ export default function SkillsCanvas() {
     images[0] = firstImg;
     
     const setFirst = () => {
-      if (imgRef.current && images[0]) {
-        imgRef.current.src = images[0].src;
-      }
+      updateFrame(0);
     };
     
     if (images[0].complete) {
@@ -46,6 +46,7 @@ export default function SkillsCanvas() {
       for (let i = 1; i < TOTAL_FRAMES; i++) {
         const img = new Image();
         img.src = getFrameSrc(i + 1);
+        img.decode().catch(() => {}); // Force background decoding of JPEG
         images[i] = img;
       }
     };
@@ -62,12 +63,20 @@ export default function SkillsCanvas() {
   }, []);
 
   const updateFrame = useCallback((frameIndex: number) => {
-    if (frameIndex === currentFrameRef.current) return;
+    if (frameIndex === currentFrameRef.current && frameIndex !== 0) return;
     currentFrameRef.current = frameIndex;
 
     const img = imagesRef.current[frameIndex];
-    if (img && img.complete && img.naturalWidth && imgRef.current) {
-      imgRef.current.src = img.src;
+    if (img && img.complete && img.naturalWidth && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d", { alpha: false }); // Boosts performance
+      if (ctx) {
+        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+        }
+        ctx.drawImage(img, 0, 0);
+      }
     }
   }, []);
 
@@ -110,13 +119,11 @@ export default function SkillsCanvas() {
       ref={containerRef}
     >
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-black">
-        {/* We use a native img tag instead of next/image to prevent Next.js from reducing the quality and to ensure perfectly instantaneous frame switching */}
-        <img
-          ref={imgRef}
-          src={getFrameSrc(1)}
-          alt="Skills 3D Animation"
-          className="w-full h-full object-cover"
-          draggable={false}
+        {/* Native <canvas> — highly performant pixel rendering */}
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full"
+          style={{ objectFit: "cover" }}
         />
         
         {/* Gradients to seamlessly blend this section with the rest of the dark site */}

@@ -22,6 +22,8 @@ export default function HeroCanvas() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   // Smoothly animate the progress number
   useEffect(() => {
     if (displayProgress < loadProgress) {
@@ -77,8 +79,18 @@ export default function HeroCanvas() {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFrameSrc(i + 1);
-      img.onload = onLoad;
-      img.onerror = onLoad;
+      
+      // Force background decoding to prevent scroll lag
+      img.decode().then(() => {
+        onLoad();
+      }).catch(() => {
+        // Fallback for browsers that don't support decode() or if it fails
+        if (img.complete) onLoad();
+        else {
+          img.onload = onLoad;
+          img.onerror = onLoad;
+        }
+      });
       images[i] = img;
     }
 
@@ -87,8 +99,13 @@ export default function HeroCanvas() {
       const num = String(i + 1).padStart(3, "0");
       const img = new Image();
       img.src = `/SkilledSectionimages/ezgif-frame-${num}.jpg`;
-      img.onload = onLoad;
-      img.onerror = onLoad;
+      img.decode().then(onLoad).catch(() => {
+        if (img.complete) onLoad();
+        else {
+          img.onload = onLoad;
+          img.onerror = onLoad;
+        }
+      });
     }
 
     imagesRef.current = images;
@@ -96,9 +113,7 @@ export default function HeroCanvas() {
     // Set first frame once loaded
     const firstImg = images[0];
     const setFirst = () => {
-      if (imgRef.current) {
-        imgRef.current.src = firstImg.src;
-      }
+      updateFrame(0);
     };
     if (firstImg.complete) {
       setFirst();
@@ -113,12 +128,22 @@ export default function HeroCanvas() {
 
   // Scroll-to-frame mapping
   const updateFrame = useCallback((frameIndex: number) => {
-    if (frameIndex === currentFrameRef.current) return;
+    if (frameIndex === currentFrameRef.current && frameIndex !== 0) return; // Allow initial draw (index 0)
     currentFrameRef.current = frameIndex;
 
     const img = imagesRef.current[frameIndex];
-    if (img && img.complete && img.naturalWidth && imgRef.current) {
-      imgRef.current.src = img.src;
+    if (img && img.complete && img.naturalWidth && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d", { alpha: false }); // Optimization: disables transparency
+      
+      if (ctx) {
+        // Match canvas internal resolution to the image
+        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+        }
+        ctx.drawImage(img, 0, 0);
+      }
     }
   }, []);
 
@@ -261,13 +286,11 @@ export default function HeroCanvas() {
 
       {/* ============ Sticky Frame Display ============ */}
       <div className="hero-canvas-sticky">
-        {/* Native <img> — browser handles upscaling with superior quality */}
-        <img
-          ref={imgRef}
-          src={getFrameSrc(1)}
-          alt="AI/ML Engineer workspace"
+        {/* Native <canvas> — extremely performant image rendering */}
+        <canvas
+          ref={canvasRef}
           className="hero-frame-img"
-          draggable={false}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
 
         {/* Bottom fade — cinematic merge into content */}

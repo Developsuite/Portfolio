@@ -34,7 +34,7 @@ export default function StatementSection() {
   });
 
   return (
-    <section ref={containerRef} className="relative w-full py-12 md:py-16 lg:py-24 flex flex-col items-center justify-center overflow-hidden bg-black">
+    <section id="about" ref={containerRef} className="relative w-full py-12 md:py-16 lg:py-24 flex flex-col items-center justify-center overflow-hidden bg-black">
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 flex flex-col items-center min-h-[150px] justify-center">
         
