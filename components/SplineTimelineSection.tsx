@@ -34,6 +34,27 @@ export default function SplineTimelineSection() {
   const headingY = useTransform(scrollYProgress, [0, 1], [40, 0]);
   const headingScale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
 
+  if (isMobile) {
+    return (
+      <section id="leadership" className="w-full relative bg-black flex flex-col items-center justify-center pt-12">
+        <div className="flex flex-row items-center justify-center gap-4 md:gap-8 pb-8 w-full px-4">
+          <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-r from-transparent to-white/40" />
+          <h2 
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-none font-black text-white text-center whitespace-nowrap"
+            style={{
+              fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Leadership
+          </h2>
+          <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-l from-transparent to-white/40" />
+        </div>
+        <img src="/mobile_view/robot.webp" alt="Leadership Timeline" className="w-full h-auto object-cover max-w-md" />
+      </section>
+    );
+  }
+
   return (
     <section id="leadership" ref={headerRef} className="relative py-12 md:py-24 px-6 lg:px-8 bg-black z-20 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -45,16 +66,12 @@ export default function SplineTimelineSection() {
         >
           <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-r from-transparent to-white/40" />
           
-          <h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-none font-black text-white text-center whitespace-nowrap uppercase tracking-tighter"
-            style={{
-              fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
-            }}
-          >
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white/10 uppercase tracking-[0.2em] md:tracking-[0.5em] select-none pointer-events-none relative inline-block">
             Leadership
+            <span className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent bg-clip-text text-transparent">
+              Leadership
+            </span>
           </h2>
-
-          <div className="h-[2px] md:h-[3px] flex-1 max-w-[80px] md:max-w-[200px] bg-gradient-to-l from-transparent to-white/40" />
         </motion.div>
 
         {/* Content Container - Centered Spline with Floating Cards */}
@@ -74,8 +91,8 @@ export default function SplineTimelineSection() {
           
           {/* Spline 3D Scene - Centered */}
           <div 
-            className={`absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center ${isMobile ? '' : 'scale-75 md:scale-100'}`}
-            style={isMobile ? undefined : {
+            className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center scale-75 md:scale-100"
+            style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
@@ -91,8 +108,8 @@ export default function SplineTimelineSection() {
             
             {/* Card 1: Top Left */}
             <motion.div 
-              initial={isMobile ? false : { opacity: 0, x: -30 }}
-              whileInView={isMobile ? undefined : { opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
               className="pointer-events-auto absolute top-[5%] md:top-[35%] left-[5%] md:left-[2%] lg:left-[2%] group"

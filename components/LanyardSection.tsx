@@ -19,6 +19,14 @@ const aiTags = [
 export default function LanyardSection() {
   const isMobile = useIsMobile();
 
+  if (isMobile) {
+    return (
+      <section className="relative w-full bg-black flex justify-center py-10">
+        <img src="/mobile_view/lanyard.webp" alt="Lanyard Section" className="w-full h-auto object-cover max-w-md" />
+      </section>
+    );
+  }
+
   return (
     <motion.section 
       initial={isMobile ? false : { opacity: 0 }}
@@ -53,8 +61,12 @@ export default function LanyardSection() {
       ))}
 
       {/* 3D Interactive Lanyard Background */}
-      <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-10">
-        <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
+      <div className={`absolute inset-0 w-full h-full z-10 ${isMobile ? 'flex items-center justify-center' : 'cursor-grab active:cursor-grabbing'}`}>
+        {isMobile ? (
+          <img src="/mobile_view/lanyard.webp" alt="Lanyard Frame" className="w-[70%] max-w-[280px] object-contain opacity-90 -rotate-12 mix-blend-screen" />
+        ) : (
+          <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
+        )}
       </div>
 
     </motion.section>

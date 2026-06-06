@@ -6,10 +6,10 @@ import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const projects = [
-  { id: "01", image: "/projects_images/1.png" },
-  { id: "02", image: "/projects_images/2.png" },
-  { id: "03", image: "/projects_images/3.png" },
-  { id: "04", image: "/projects_images/4.png" },
+  { id: "01", image: "/projects_images/1.png", link: "https://github.com/MQ-06/Aurora" },
+  { id: "02", image: "/projects_images/2.png", link: "https://github.com/kinzamalik18/FlowCraft" },
+  { id: "03", image: "/projects_images/3.png", link: "https://github.com/MQ-06/STREETLIGHT-PK" },
+  { id: "04", image: "/projects_images/4.png", link: "https://github.com/kinzamalik18/Openclaw-security-analysis" },
 ];
 
 export default function ProjectsSection() {
@@ -109,8 +109,11 @@ export default function ProjectsSection() {
           </button>
 
           {/* Image Track */}
-          <div 
-            className="relative w-full h-[250px] sm:h-[350px] lg:h-[400px] xl:h-[500px] overflow-hidden rounded-[20px] lg:rounded-[24px] border border-white/10 shadow-2xl bg-[#0a0a0a] cursor-none transition-all duration-300"
+          <a 
+            href={projects[currentIndex].link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative block w-full h-[250px] sm:h-[350px] lg:h-[400px] xl:h-[500px] overflow-hidden rounded-[20px] lg:rounded-[24px] border border-white/10 shadow-2xl bg-[#0a0a0a] cursor-none transition-all duration-300"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
@@ -126,7 +129,7 @@ export default function ProjectsSection() {
                   x: { type: "spring", stiffness: 300, damping: 30 },
                   opacity: { duration: 0.2 },
                 }}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full pointer-events-none"
               >
                 <Image
                   src={projects[currentIndex].image}
@@ -139,7 +142,7 @@ export default function ProjectsSection() {
                 <div className="absolute inset-0 bg-black/5 pointer-events-none" />
               </motion.div>
             </AnimatePresence>
-          </div>
+          </a>
 
           {/* Next Button */}
           <button 
