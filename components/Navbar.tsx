@@ -8,7 +8,7 @@ const navLinks = [
     label: "Home", 
     href: "#home",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
         <polyline points="9 22 9 12 15 12 15 22" />
       </svg>
@@ -18,7 +18,7 @@ const navLinks = [
     label: "About", 
     href: "#about",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
         <circle cx="12" cy="7" r="4" />
       </svg>
@@ -28,7 +28,7 @@ const navLinks = [
     label: "Skills", 
     href: "#skills",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <polyline points="16 18 22 12 16 6" />
         <polyline points="8 6 2 12 8 18" />
       </svg>
@@ -38,7 +38,7 @@ const navLinks = [
     label: "Projects", 
     href: "#projects",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <polygon points="12 2 2 7 12 12 22 7 12 2" />
         <polyline points="2 12 12 17 22 12" />
         <polyline points="2 17 12 22 22 17" />
@@ -49,7 +49,7 @@ const navLinks = [
     label: "Experience", 
     href: "#experience",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
       </svg>
@@ -59,7 +59,7 @@ const navLinks = [
     label: "Contact", 
     href: "#contact",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
         <polyline points="22,6 12,13 2,6" />
       </svg>
@@ -213,7 +213,7 @@ export default function Navbar() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-        <div className="flex flex-col items-center gap-3 lg:gap-4 xl:gap-6 px-1.5 py-3 lg:px-2 lg:py-4 xl:px-2.5 xl:py-5 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+        <div className="flex flex-col items-center gap-3 lg:gap-4 2xl:gap-6 px-1.5 py-3 lg:px-2 lg:py-4 2xl:px-2.5 2xl:py-5 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
             return (
@@ -221,7 +221,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleClick(e, link.href)}
-                className="group relative flex items-center justify-center p-1.5 lg:p-2 xl:p-2.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+                className="group relative flex items-center justify-center p-1.5 lg:p-2 2xl:p-2.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
                 aria-label={link.label}
               >
                 {isActive && (
