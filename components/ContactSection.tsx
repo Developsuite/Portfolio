@@ -13,7 +13,7 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      className="relative py-10 md:py-16 px-6 lg:px-8 overflow-hidden z-20"
+      className="relative py-10 md:py-16 px-6 lg:px-8 z-20"
     >
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
@@ -24,13 +24,23 @@ export default function ContactSection() {
           className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12"
         >
           {/* Left Side Container */}
-          <div className="flex-1 flex flex-col items-center text-center lg:items-start lg:text-left">
-            <h2 
-              className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter mb-3 uppercase"
-              style={{ fontFamily: 'var(--font-outfit), "Outfit", sans-serif' }}
-            >
-              Kinz ul eman
-            </h2>
+          <div className="flex-1 flex flex-col items-center text-center lg:items-start lg:text-left relative z-30">
+            <div className="relative group inline-block cursor-default">
+              <h2 
+                className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter mb-3 uppercase relative z-10 transition-colors duration-300 group-hover:text-blue-400"
+                style={{ fontFamily: 'var(--font-outfit), "Outfit", sans-serif' }}
+              >
+                Kinz ul eman
+              </h2>
+              {/* Floating Image Card on Hover */}
+              <div className="absolute bottom-[calc(100%-8px)] left-1/2 -translate-x-1/2 w-32 h-32 md:w-48 md:h-48 rounded-xl overflow-hidden opacity-0 scale-50 -rotate-12 pointer-events-none transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-bottom group-hover:opacity-100 group-hover:scale-100 group-hover:-rotate-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 z-[100]">
+                <img 
+                  src="/mobile_view/1.webp" 
+                  alt="Kinz ul eman" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
             <p className="text-white/60 text-sm md:text-base font-medium max-w-md leading-relaxed">
               AI/ML Engineer & Full-Stack Developer specializing in scalable, intelligent solutions and complete product development.
             </p>

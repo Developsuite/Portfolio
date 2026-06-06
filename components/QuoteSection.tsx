@@ -57,7 +57,7 @@ export default function QuoteSection() {
           {/* Image Container (Right Side) */}
           <div className="flex-1 relative min-h-[200px] sm:min-h-[300px] lg:min-h-[400px] overflow-hidden bg-black lg:border-l border-t lg:border-t-0 border-white/5">
             <Image
-              src="/mobile_view/1.webp"
+              src="/kinz.png"
               alt="Kinz ul eman"
               fill
               className="object-cover object-center"

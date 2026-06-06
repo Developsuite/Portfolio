@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const TOTAL_FRAMES = 161;
 const FRAME_PATH = "/SkilledSectionimages/ezgif-frame-";
@@ -18,13 +19,7 @@ export default function SkillsCanvas() {
   const rafRef = useRef<number>(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" ? window.innerWidth < 768 : false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const isMobile = useIsMobile();
 
   // Preload frames lazily to avoid blocking initial page load
   useEffect(() => {
