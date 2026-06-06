@@ -30,7 +30,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
       >
         <Suspense fallback={<Html center><div className="text-white tracking-widest text-sm animate-pulse whitespace-nowrap">LOADING 3D ID...</div></Html>}>
           <ambientLight intensity={Math.PI} />
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+          <Physics gravity={gravity} timeStep={1 / 60}>
             <Band isMobile={isMobile} />
           </Physics>
           <Environment blur={0.75}>

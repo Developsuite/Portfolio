@@ -44,6 +44,8 @@ export default function HeroCanvas() {
 
   // Preload ALL frames before allowing the page to open to guarantee zero scroll lag
   useEffect(() => {
+    const SKILLS_PRELOAD_COUNT = 80;
+    const TOTAL_TO_LOAD = TOTAL_FRAMES + SKILLS_PRELOAD_COUNT;
     let loadedCount = 0;
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let framesLoaded = false;
@@ -63,21 +65,30 @@ export default function HeroCanvas() {
 
     const onLoad = () => {
       loadedCount++;
-      const progress = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+      const progress = Math.round((loadedCount / TOTAL_TO_LOAD) * 100);
       setLoadProgress(Math.min(progress, 100));
-      if (loadedCount >= TOTAL_FRAMES && !framesLoaded) {
+      if (loadedCount >= TOTAL_TO_LOAD && !framesLoaded) {
         framesLoaded = true;
         checkDone();
       }
     };
 
-    // Load ALL 151 frames first to unblock the UI with zero lag
+    // 1. Load ALL 151 frames of Hero section
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFrameSrc(i + 1);
       img.onload = onLoad;
       img.onerror = onLoad;
       images[i] = img;
+    }
+
+    // 2. Load the first 80 frames of the Skills section so they are cached
+    for (let i = 0; i < SKILLS_PRELOAD_COUNT; i++) {
+      const num = String(i + 1).padStart(3, "0");
+      const img = new Image();
+      img.src = `/SkilledSectionimages/ezgif-frame-${num}.jpg`;
+      img.onload = onLoad;
+      img.onerror = onLoad;
     }
 
     imagesRef.current = images;

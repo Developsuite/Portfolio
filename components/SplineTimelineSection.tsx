@@ -56,15 +56,23 @@ export default function SplineTimelineSection() {
         </motion.div>
 
         {/* Content Container - Centered Spline with Floating Cards */}
-        <div className="w-full min-h-[500px] lg:min-h-[600px] bg-transparent relative flex flex-col items-center mt-0">
+        <div className="w-full h-[450px] md:h-[500px] lg:h-[600px] bg-transparent relative flex flex-col items-center mt-0">
           <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-20"
             fill="white"
           />
           
+          {/* Top Right Spotlight (Mirrored) */}
+          <div className="absolute inset-0 z-0 pointer-events-none" style={{ transform: 'scaleX(-1)' }}>
+            <Spotlight
+              className="-top-40 left-0 md:left-60 md:-top-20"
+              fill="white"
+            />
+          </div>
+          
           {/* Spline 3D Scene - Centered */}
           <div 
-            className="w-full h-[350px] md:absolute md:inset-0 md:m-auto md:w-[900px] md:h-[600px] z-10"
+            className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 scale-75 md:scale-100 origin-center"
             style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
@@ -76,8 +84,8 @@ export default function SplineTimelineSection() {
             />
           </div>
 
-          {/* Zigzag Content Cards - Absolute on Desktop, Stacked on Mobile */}
-          <div className="relative md:absolute md:inset-0 w-full h-full z-20 flex flex-col md:block mt-2 md:mt-0 px-4 md:px-0 pointer-events-none">
+          {/* Zigzag Content Cards - Absolute positioning for all screens */}
+          <div className="absolute inset-0 w-full h-full z-20 pointer-events-none">
             
             {/* Card 1: Top Left */}
             <motion.div 
@@ -85,12 +93,12 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
-              className="pointer-events-auto md:absolute md:top-[35%] md:left-[2%] lg:left-[2%] w-full md:w-auto mb-6 md:mb-0 group"
+              className="pointer-events-auto absolute top-[5%] md:top-[35%] left-[5%] md:left-[2%] lg:left-[2%] group"
             >
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
+              <div className="inline-flex items-center px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-1 md:mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[0].role}</span>
               </div>
-              <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[0].organization}</span>
+              <span className="text-[10px] md:text-xs font-mono text-white/80 block tracking-wider pl-2 md:pl-4">@ {affiliations[0].organization}</span>
               
               {/* SVG Connecting Arrow */}
               <svg className="absolute top-4 left-full w-64 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
@@ -106,12 +114,12 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="pointer-events-auto md:absolute md:top-[55%] md:-translate-y-1/2 md:right-[2%] lg:right-[2%] w-full md:w-auto mb-6 md:mb-0 group flex flex-col items-start md:items-end"
+              className="pointer-events-auto absolute top-[25%] md:top-[55%] -translate-y-1/2 right-[5%] md:right-[2%] lg:right-[2%] group flex flex-col items-end"
             >
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
+              <div className="inline-flex items-center px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-1 md:mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[1].role}</span>
               </div>
-              <span className="text-xs font-mono text-white/80 block tracking-wider pr-4">@ {affiliations[1].organization}</span>
+              <span className="text-[10px] md:text-xs font-mono text-white/80 block tracking-wider pr-2 md:pr-4">@ {affiliations[1].organization}</span>
               
               {/* SVG Connecting Arrow */}
               <svg className="absolute top-4 right-full w-64 h-10 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
@@ -127,12 +135,12 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="pointer-events-auto md:absolute md:top-[75%] md:left-[2%] lg:left-[2%] w-full md:w-auto mb-6 md:mb-0 group"
+              className="pointer-events-auto absolute bottom-[5%] md:bottom-auto md:top-[75%] left-[5%] md:left-[2%] lg:left-[2%] group"
             >
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
+              <div className="inline-flex items-center px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-1 md:mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[2].role}</span>
               </div>
-              <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[2].organization}</span>
+              <span className="text-[10px] md:text-xs font-mono text-white/80 block tracking-wider pl-2 md:pl-4">@ {affiliations[2].organization}</span>
               
               {/* SVG Connecting Arrow */}
               <svg className="absolute top-4 left-full w-64 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">

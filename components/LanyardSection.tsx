@@ -8,11 +8,11 @@ const Lanyard = dynamic(() => import("./Lanyard"), { ssr: false });
 
 const aiTags = [
   { text: "Deep Learning", top: "20%", left: "10%", delay: 0 },
-  { text: "Neural Networks", top: "60%", left: "15%", delay: 1.2 },
+  { text: "Neural Networks", top: "60%", left: "15%", delay: 1.2, hideOnMobile: true },
   { text: "Generative AI", top: "30%", right: "12%", delay: 0.5 },
-  { text: "Computer Vision", top: "70%", right: "8%", delay: 1.8 },
-  { text: "NLP Models", top: "85%", left: "25%", delay: 2.1 },
-  { text: "LLM Orchestration", top: "15%", right: "25%", delay: 0.8 },
+  { text: "Computer Vision", top: "70%", right: "8%", delay: 1.8, hideOnMobile: true },
+  { text: "NLP Models", top: "85%", left: "25%", delay: 2.1, hideOnMobile: true },
+  { text: "LLM Orchestration", top: "15%", right: "25%", delay: 0.8, hideOnMobile: true },
 ];
 
 export default function LanyardSection() {
@@ -32,7 +32,7 @@ export default function LanyardSection() {
       {aiTags.map((tag, index) => (
         <motion.div
           key={index}
-          className="absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap shadow-[0_0_15px_rgba(255,255,255,0.05)] md:shadow-[0_0_25px_rgba(255,255,255,0.05)]"
+          className={`absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap shadow-[0_0_15px_rgba(255,255,255,0.05)] md:shadow-[0_0_25px_rgba(255,255,255,0.05)] ${tag.hideOnMobile ? 'hidden md:flex' : 'flex'}`}
           style={{ top: tag.top, left: tag.left, right: tag.right }}
           animate={{
             y: [0, -10, 0],

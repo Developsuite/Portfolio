@@ -83,8 +83,8 @@ export default function BenefitsSection() {
                   className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
                 
-                {/* Gradient Overlay (Soft Blur Fade) */}
-                <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/90 via-black/40 to-transparent backdrop-blur-[6px] [mask-image:linear-gradient(to_top,black_30%,transparent)]" />
+                {/* Gradient Overlay (Performant) */}
+                <div className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
 
                 {/* Content (Active State) */}
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-5 lg:p-6 xl:p-8 flex flex-col justify-end h-full">
