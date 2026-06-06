@@ -63,11 +63,11 @@ export default function SplineTimelineSection() {
           />
           
           {/* Spline 3D Scene - Centered */}
-          <div className="w-full h-[350px] md:absolute md:inset-0 md:m-auto md:w-[500px] md:h-[600px] z-10">
-            <div className="absolute inset-0 bg-gradient-to-b md:bg-[radial-gradient(ellipse_at_center,transparent_30%,black_70%)] pointer-events-none z-10" />
+          <div className="w-full h-[350px] md:absolute md:inset-0 md:m-auto md:w-[900px] md:h-[600px] z-10">
+            <div className="absolute inset-0 bg-gradient-to-b md:bg-[radial-gradient(ellipse_at_center,transparent_40%,black_70%)] pointer-events-none z-10" />
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full object-cover scale-90"
+              className="w-full h-full object-cover"
             />
           </div>
 
@@ -80,18 +80,18 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
-              className="pointer-events-auto md:absolute md:top-[40%] md:left-[5%] lg:left-[15%] w-full md:w-auto mb-6 md:mb-0 group"
+              className="pointer-events-auto md:absolute md:top-[35%] md:left-[2%] lg:left-[2%] w-full md:w-auto mb-6 md:mb-0 group"
             >
               <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[0].role}</span>
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[0].organization}</span>
               
-              {/* SVG Connecting Arrow */}
-              <svg className="absolute top-4 left-full w-24 h-24 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow (Elongated) */}
+              <svg className="absolute top-4 left-full w-48 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1 }}
-                  d="M 0 0 L 30 0 L 90 30" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="90" cy="30" r="3" fill="#3b82f6" />
+                  d="M 0 0 L 80 0 L 180 40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="180" cy="40" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
@@ -101,18 +101,18 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="pointer-events-auto md:absolute md:top-[60%] md:-translate-y-1/2 md:right-[5%] lg:right-[15%] w-full md:w-auto mb-6 md:mb-0 group flex flex-col items-start md:items-end"
+              className="pointer-events-auto md:absolute md:top-[55%] md:-translate-y-1/2 md:right-[2%] lg:right-[2%] w-full md:w-auto mb-6 md:mb-0 group flex flex-col items-start md:items-end"
             >
               <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[1].role}</span>
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pr-4">@ {affiliations[1].organization}</span>
               
-              {/* SVG Connecting Arrow */}
-              <svg className="absolute top-4 right-full w-24 h-10 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow (Elongated) */}
+              <svg className="absolute top-4 right-full w-48 h-10 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.2 }}
-                  d="M 0 0 L -70 0" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="-70" cy="0" r="3" fill="#3b82f6" />
+                  d="M 0 0 L -180 0" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="-180" cy="0" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
@@ -122,18 +122,18 @@ export default function SplineTimelineSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="pointer-events-auto md:absolute md:top-[80%] md:left-[5%] lg:left-[15%] w-full md:w-auto mb-6 md:mb-0 group"
+              className="pointer-events-auto md:absolute md:top-[75%] md:left-[2%] lg:left-[2%] w-full md:w-auto mb-6 md:mb-0 group"
             >
               <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 shadow-[0_4px_15px_rgba(59,130,246,0.6),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-blue-400 mb-2 transition-transform group-hover:scale-105 cursor-default">
                 <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{affiliations[2].role}</span>
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[2].organization}</span>
               
-              {/* SVG Connecting Arrow */}
-              <svg className="absolute top-4 left-full w-24 h-24 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow (Elongated) */}
+              <svg className="absolute top-4 left-full w-48 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.4 }}
-                  d="M 0 0 L 30 0 L 90 -30" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="90" cy="-30" r="3" fill="#3b82f6" />
+                  d="M 0 0 L 80 0 L 180 -40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="180" cy="-40" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
