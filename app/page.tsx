@@ -5,6 +5,7 @@ import HeroCanvas from "@/components/HeroCanvas";
 import StatementSection from "@/components/StatementSection";
 import LanyardSection from "@/components/LanyardSection";
 import SkillsSection from "@/components/SkillsSection";
+import SplineTimelineSection from "@/components/SplineTimelineSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import QuoteSection from "@/components/QuoteSection";
@@ -28,6 +29,13 @@ export default function Home() {
       </div>
 
       <SkillsSection />
+
+      {/* Section divider */}
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      </div>
+
+      <SplineTimelineSection />
 
       {/* Section divider */}
       <div className="max-w-6xl mx-auto px-6">
