@@ -63,8 +63,13 @@ export default function SplineTimelineSection() {
           />
           
           {/* Spline 3D Scene - Centered */}
-          <div className="w-full h-[350px] md:absolute md:inset-0 md:m-auto md:w-[900px] md:h-[600px] z-10">
-            <div className="absolute inset-0 bg-gradient-to-b md:bg-[radial-gradient(ellipse_at_center,transparent_40%,black_70%)] pointer-events-none z-10" />
+          <div 
+            className="w-full h-[350px] md:absolute md:inset-0 md:m-auto md:w-[900px] md:h-[600px] z-10"
+            style={{
+              maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
+            }}
+          >
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full object-cover"
@@ -87,11 +92,11 @@ export default function SplineTimelineSection() {
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[0].organization}</span>
               
-              {/* SVG Connecting Arrow (Elongated) */}
-              <svg className="absolute top-4 left-full w-48 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow */}
+              <svg className="absolute top-4 left-full w-64 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1 }}
-                  d="M 0 0 L 80 0 L 180 40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="180" cy="40" r="4" fill="#3b82f6" />
+                  d="M 0 0 L 80 0 L 160 40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="160" cy="40" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
@@ -108,11 +113,11 @@ export default function SplineTimelineSection() {
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pr-4">@ {affiliations[1].organization}</span>
               
-              {/* SVG Connecting Arrow (Elongated) */}
-              <svg className="absolute top-4 right-full w-48 h-10 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow */}
+              <svg className="absolute top-4 right-full w-64 h-10 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.2 }}
-                  d="M 0 0 L -180 0" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="-180" cy="0" r="4" fill="#3b82f6" />
+                  d="M 256 0 L 116 0" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="116" cy="0" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
@@ -129,11 +134,11 @@ export default function SplineTimelineSection() {
               </div>
               <span className="text-xs font-mono text-white/80 block tracking-wider pl-4">@ {affiliations[2].organization}</span>
               
-              {/* SVG Connecting Arrow (Elongated) */}
-              <svg className="absolute top-4 left-full w-48 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
+              {/* SVG Connecting Arrow */}
+              <svg className="absolute top-4 left-full w-64 h-32 overflow-visible pointer-events-none hidden lg:block opacity-60 group-hover:opacity-100 transition-opacity">
                 <motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.4 }}
-                  d="M 0 0 L 80 0 L 180 -40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
-                <circle cx="180" cy="-40" r="4" fill="#3b82f6" />
+                  d="M 0 0 L 80 0 L 160 -40" fill="none" stroke="#3b82f6" strokeWidth="2" strokeDasharray="3 3" />
+                <circle cx="160" cy="-40" r="4" fill="#3b82f6" />
               </svg>
             </motion.div>
 
