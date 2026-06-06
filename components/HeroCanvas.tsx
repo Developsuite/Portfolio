@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
-const TOTAL_FRAMES = 151;
-const FRAME_PATH = "/frames/ezgif-frame-";
+const TOTAL_FRAMES = 250;
+const FRAME_PATH = "/herosectionimages/ezgif-frame-";
 
 function getFrameSrc(index: number): string {
   const num = String(index).padStart(3, "0");
@@ -83,7 +83,7 @@ export default function HeroCanvas() {
       }
     };
 
-    // 1. Load ALL 151 frames of Hero section
+    // 1. Load ALL 250 frames of Hero section
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFrameSrc(i + 1);
