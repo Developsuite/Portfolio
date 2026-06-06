@@ -42,10 +42,9 @@ export default function HeroCanvas() {
     }
   }, [isLoaded]);
 
-  // Preload frames lazily to drastically speed up initial page load
+  // Preload ALL frames before allowing the page to open to guarantee zero scroll lag
   useEffect(() => {
     let loadedCount = 0;
-    const CRITICAL_FRAMES = 35; // Increased to cache more frames before unlocking
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let framesLoaded = false;
     let minTimeElapsed = false;
@@ -56,24 +55,24 @@ export default function HeroCanvas() {
       }
     };
 
-    // Force loader to show for at least 3.5 seconds to allow background caching
+    // Force loader to show for at least 2.5 seconds for the cinematic effect
     setTimeout(() => {
       minTimeElapsed = true;
       checkDone();
-    }, 3500);
+    }, 2500);
 
     const onLoad = () => {
       loadedCount++;
-      const progress = Math.round((loadedCount / CRITICAL_FRAMES) * 100);
+      const progress = Math.round((loadedCount / TOTAL_FRAMES) * 100);
       setLoadProgress(Math.min(progress, 100));
-      if (loadedCount >= CRITICAL_FRAMES && !framesLoaded) {
+      if (loadedCount >= TOTAL_FRAMES && !framesLoaded) {
         framesLoaded = true;
         checkDone();
       }
     };
 
-    // 1. Load critical frames first to unblock the UI instantly
-    for (let i = 0; i < CRITICAL_FRAMES; i++) {
+    // Load ALL 151 frames first to unblock the UI with zero lag
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFrameSrc(i + 1);
       img.onload = onLoad;
@@ -82,21 +81,6 @@ export default function HeroCanvas() {
     }
 
     imagesRef.current = images;
-
-    // 2. Defer the rest of the 130+ frames to background loading
-    const loadRemainingFrames = () => {
-      for (let i = CRITICAL_FRAMES; i < TOTAL_FRAMES; i++) {
-        const img = new Image();
-        img.src = getFrameSrc(i + 1);
-        images[i] = img;
-      }
-    };
-
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(() => loadRemainingFrames(), { timeout: 2000 });
-    } else {
-      setTimeout(loadRemainingFrames, 1500);
-    }
 
     // Set first frame once loaded
     const firstImg = images[0];
