@@ -43,7 +43,7 @@ export default function LanyardSection() {
       {aiTags.map((tag, index) => (
         <motion.div
           key={index}
-          className={`absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap shadow-[0_0_15px_rgba(255,255,255,0.05)] md:shadow-[0_0_25px_rgba(255,255,255,0.05)] ${tag.hideOnMobile ? 'hidden md:flex' : 'flex'}`}
+          className={`absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/10 bg-white/[0.05] text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap will-change-transform ${tag.hideOnMobile ? 'hidden md:flex' : 'flex'}`}
           style={{ top: tag.top, left: tag.left, right: tag.right }}
           animate={{
             y: [0, -10, 0],
