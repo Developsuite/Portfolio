@@ -16,8 +16,13 @@ const aiTags = [
   { text: "LLM Orchestration", top: "15%", right: "25%", delay: 0.8, hideOnMobile: true },
 ];
 
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function LanyardSection() {
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
 
   if (isMobile) {
     return (
@@ -61,11 +66,11 @@ export default function LanyardSection() {
       ))}
 
       {/* 3D Interactive Lanyard Background */}
-      <div className={`absolute inset-0 w-full h-full z-10 ${isMobile ? 'flex items-center justify-center' : 'cursor-grab active:cursor-grabbing'}`}>
+      <div ref={containerRef} className={`absolute inset-0 w-full h-full z-10 ${isMobile ? 'flex items-center justify-center' : 'cursor-grab active:cursor-grabbing'}`}>
         {isMobile ? (
           <img src="/mobile_view/lanyard.webp" alt="Lanyard Frame" className="w-[70%] max-w-[280px] object-contain opacity-90 -rotate-12 mix-blend-screen" />
         ) : (
-          <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
+          isInView && <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
         )}
       </div>
 

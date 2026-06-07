@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const affiliations = [
@@ -24,6 +25,8 @@ const affiliations = [
 export default function SplineTimelineSection() {
   const headerRef = useRef(null);
   const isMobile = useIsMobile();
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -96,16 +99,19 @@ export default function SplineTimelineSection() {
           
           {/* Spline 3D Scene - Centered */}
           <div 
+            ref={containerRef}
             className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center scale-75 md:scale-100"
             style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
           >
-            <SplineScene 
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full object-cover"
-            />
+            {isInView && (
+              <SplineScene 
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
 
           {/* Zigzag Content Cards - Absolute positioning for all screens */}

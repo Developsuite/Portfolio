@@ -74,6 +74,7 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+import SmoothScroll from "@/components/SmoothScroll";
 
 export default function RootLayout({
   children,
@@ -82,7 +83,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${figtree.variable} ${jetbrainsMono.variable} ${bebasNeue.variable} ${syncopate.variable} ${syne.variable} ${outfit.variable} ${caveat.variable}`}>
-      <body className={`${figtree.className} antialiased`}>{children}</body>
+      <body className={`${figtree.className} antialiased`}>
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
