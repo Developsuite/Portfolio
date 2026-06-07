@@ -117,25 +117,25 @@ const FloatingPill = ({ text, iconBg, iconColor, delay, className = "", floatDel
       transition={{ delay, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
       className={`${isAbsolute ? 'absolute' : 'relative'} z-20 ${className}`}
     >
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, delay: floatDelay, repeat: Infinity, ease: "easeInOut" }}
+      {/* Using CSS animation instead of Framer Motion infinite loop — 
+           CSS animations run on the compositor thread and don't block scroll */}
+      <div
         className="flex items-center gap-2.5 bg-white/10 backdrop-blur-md rounded-full p-[5px] pr-5 cursor-pointer hover:scale-105 transition-transform border border-white/10"
         style={{
-          boxShadow: "0 8px 32px rgba(0,0,0,0.3)"
+          boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+          animation: `floatPill 4s ${floatDelay}s ease-in-out infinite`,
         }}
       >
         <div 
           className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" 
           style={{ backgroundColor: iconBg }}
         >
-          {/* Recreated the triangle/play style icon from the vector paths */}
           <svg width="10" height="10" viewBox="0 0 24 24" fill={iconColor}>
             <path d="M4 2L20 12L4 22V2Z" />
           </svg>
         </div>
         <span className="text-white font-medium text-[13px] whitespace-nowrap">{text}</span>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

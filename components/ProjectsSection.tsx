@@ -64,7 +64,7 @@ export default function ProjectsSection() {
     <section
       id="projects"
       ref={ref}
-      className="relative py-16 md:py-24 xl:py-32 px-6 lg:px-8 bg-black z-20 transition-all duration-300"
+      className="section-contain relative py-16 md:py-24 xl:py-32 px-6 lg:px-8 bg-black z-20 transition-all duration-300"
     >
       <div className="max-w-6xl mx-auto relative">
         {/* Header */}

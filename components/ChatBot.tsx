@@ -168,13 +168,12 @@ export default function ChatBot() {
         whileTap={{ scale: 0.95 }}
         aria-label="Toggle chatbot"
       >
-        <motion.div
+        <div
           className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shrink-0"
           style={{
             border: "1.5px solid rgba(255,255,255,0.3)",
+            animation: !isOpen ? "floatPill 3s ease-in-out infinite" : "none",
           }}
-          animate={!isOpen ? { scale: [1, 1.1, 1] } : { scale: 1 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <AnimatePresence mode="wait">
             {isOpen ? (
@@ -207,7 +206,7 @@ export default function ChatBot() {
               />
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
         <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide">
           Let&apos;s Talk
         </span>

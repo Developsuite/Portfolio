@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useLenis } from 'lenis/react';
 
 const TOTAL_FRAMES = 250;
 const FRAME_PATH = "/herosectionimages/ezgif-frame-";
@@ -17,7 +18,6 @@ export default function HeroCanvas() {
   const imgRef = useRef<HTMLImageElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
-  const rafRef = useRef<number>(0);
   const [loadProgress, setLoadProgress] = useState(0);
   const [displayProgress, setDisplayProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -128,10 +128,6 @@ export default function HeroCanvas() {
     } else {
       firstImg.addEventListener("load", setFirst, { once: true });
     }
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
   }, [isMobile]);
 
   // Scroll-to-frame mapping
@@ -156,38 +152,25 @@ export default function HeroCanvas() {
     }
   }, [isMobile]);
 
-  // Scroll handler
-  useEffect(() => {
+  // Scroll handler synced to Lenis
+  useLenis(() => {
     if (isMobile) return;
-    const handleScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        const container = containerRef.current;
-        if (!container) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-        const rect = container.getBoundingClientRect();
-        const scrollable = container.offsetHeight - window.innerHeight;
-        if (scrollable <= 0) return;
+    const rect = container.getBoundingClientRect();
+    const scrollable = container.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
 
-        const rawProgress = -rect.top / scrollable;
-        const progress = Math.min(Math.max(rawProgress, 0), 1);
-        const frameIndex = Math.min(
-          Math.floor(progress * (TOTAL_FRAMES - 1)),
-          TOTAL_FRAMES - 1
-        );
+    const rawProgress = -rect.top / scrollable;
+    const progress = Math.min(Math.max(rawProgress, 0), 1);
+    const frameIndex = Math.min(
+      Math.floor(progress * (TOTAL_FRAMES - 1)),
+      TOTAL_FRAMES - 1
+    );
 
-        updateFrame(frameIndex);
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [updateFrame, isMobile]);
+    updateFrame(frameIndex);
+  });
 
   /* ---- Shared loader content (rendered inside BOTH halves) ---- */
   const loaderContent = (

@@ -41,28 +41,24 @@ export default function LanyardSection() {
       className="relative w-full h-[75vh] md:h-[100vh] bg-black overflow-hidden border-t border-white/10"
     >
       {/* Cinematic Top Spotlight Glow */}
-      <div className="absolute top-[-100px] md:top-[-200px] left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[200px] md:h-[400px] bg-white/[0.07] blur-[60px] md:blur-[100px] rounded-[100%] pointer-events-none z-0" />
-      <div className="absolute top-[-50px] md:top-[-100px] left-1/2 -translate-x-1/2 w-[100%] md:w-[300px] h-[100px] md:h-[200px] bg-white/[0.15] blur-[40px] md:blur-[80px] rounded-[100%] pointer-events-none z-0" />
+      <div className="gpu-accelerated absolute top-[-100px] md:top-[-200px] left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[200px] md:h-[400px] bg-white/[0.07] blur-[60px] md:blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="gpu-accelerated absolute top-[-50px] md:top-[-100px] left-1/2 -translate-x-1/2 w-[100%] md:w-[300px] h-[100px] md:h-[200px] bg-white/[0.15] blur-[40px] md:blur-[80px] rounded-[100%] pointer-events-none z-0" />
 
-      {/* Floating AI/ML Tags */}
+      {/* Floating AI/ML Tags — using CSS animation instead of JS for compositor-thread perf */}
       {aiTags.map((tag, index) => (
-        <motion.div
+        <div
           key={index}
-          className={`absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/10 bg-white/[0.05] text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap will-change-transform ${tag.hideOnMobile ? 'hidden md:flex' : 'flex'}`}
-          style={{ top: tag.top, left: tag.left, right: tag.right }}
-          animate={{
-            y: [0, -10, 0],
-            opacity: [0.6, 1, 0.6],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: tag.delay,
+          className={`absolute z-0 pointer-events-none px-3 py-1.5 md:px-5 md:py-2.5 rounded-full border border-white/10 bg-white/[0.05] text-white/90 font-mono text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-nowrap ${tag.hideOnMobile ? 'hidden md:flex' : 'flex'}`}
+          style={{
+            top: tag.top,
+            left: tag.left,
+            right: tag.right,
+            animation: `floatTag 4s ${tag.delay}s ease-in-out infinite`,
+            willChange: 'transform, opacity',
           }}
         >
           {tag.text}
-        </motion.div>
+        </div>
       ))}
 
       {/* 3D Interactive Lanyard Background */}

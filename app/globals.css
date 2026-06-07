@@ -25,7 +25,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth is intentionally removed — Lenis handles smooth scrolling.
+     Having both causes double-interpolation stutter. */
   background-color: var(--navy-950);
 }
 
@@ -172,6 +173,9 @@ body {
   height: 100vh;
   overflow: hidden;
   background-color: #000000;
+  /* GPU layer promotion — prevents scroll repaints */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .hero-frame-img {
@@ -182,8 +186,46 @@ body {
   object-position: center center;
   user-select: none;
   pointer-events: none;
-  /* Let the browser use its best upscaling algorithm */
   image-rendering: auto;
+  /* Composite on its own GPU layer */
+  will-change: contents;
+}
+
+/* ============================
+   GPU Performance Utilities
+   ============================ */
+.gpu-accelerated {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Isolate section rendering to prevent layout thrashing on scroll */
+.section-contain {
+  contain: content;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================
+   Compositor-thread float animations
+   (replaces JS-driven Framer Motion infinite loops)
+   ============================ */
+@keyframes floatPill {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes floatTag {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-10px); opacity: 1; }
 }
 
 /* Old loader CSS removed — now handled by Framer Motion split-open animation */

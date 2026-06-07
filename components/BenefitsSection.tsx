@@ -31,7 +31,7 @@ export default function BenefitsSection() {
   const isMobile = useIsMobile();
 
   return (
-    <section className="relative w-full py-12 md:py-16 xl:py-24 px-6 lg:px-8 bg-black text-white overflow-hidden z-20">
+    <section className="section-contain relative w-full py-12 md:py-16 xl:py-24 px-6 lg:px-8 bg-black text-white overflow-hidden z-20">
       <motion.div 
         initial={isMobile ? false : { opacity: 0, y: 40 }}
         whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}

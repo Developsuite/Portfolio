@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useLenis } from 'lenis/react';
 
 const TOTAL_FRAMES = 161;
 const FRAME_PATH = "/SkilledSectionimages/ezgif-frame-";
@@ -16,7 +17,6 @@ export default function SkillsCanvas() {
   const imgRef = useRef<HTMLImageElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
-  const rafRef = useRef<number>(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isMobile = useIsMobile();
@@ -59,10 +59,6 @@ export default function SkillsCanvas() {
     } else {
       setTimeout(loadRemainingFrames, 1500);
     }
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
   }, [isMobile]);
 
   const updateFrame = useCallback((frameIndex: number) => {
@@ -84,38 +80,25 @@ export default function SkillsCanvas() {
     }
   }, [isMobile]);
 
-  useEffect(() => {
+  useLenis(() => {
     if (isMobile) return;
-    const handleScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        const container = containerRef.current;
-        if (!container) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-        const rect = container.getBoundingClientRect();
-        const scrollable = container.offsetHeight - window.innerHeight;
-        if (scrollable <= 0) return;
+    const rect = container.getBoundingClientRect();
+    const scrollable = container.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
 
-        // Ensure we calculate progress smoothly from 0 to 1 as the section is scrolled
-        const rawProgress = -rect.top / scrollable;
-        const progress = Math.min(Math.max(rawProgress, 0), 1);
-        const frameIndex = Math.min(
-          Math.floor(progress * (TOTAL_FRAMES - 1)),
-          TOTAL_FRAMES - 1
-        );
+    // Ensure we calculate progress smoothly from 0 to 1 as the section is scrolled
+    const rawProgress = -rect.top / scrollable;
+    const progress = Math.min(Math.max(rawProgress, 0), 1);
+    const frameIndex = Math.min(
+      Math.floor(progress * (TOTAL_FRAMES - 1)),
+      TOTAL_FRAMES - 1
+    );
 
-        updateFrame(frameIndex);
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [updateFrame, isMobile]);
+    updateFrame(frameIndex);
+  });
 
   return (
     <section
@@ -123,7 +106,7 @@ export default function SkillsCanvas() {
       style={{ height: isMobile ? "100vh" : "400vh" }} // Provides the scroll distance needed for 161 frames
       ref={containerRef}
     >
-      <div className={isMobile ? "absolute inset-0 w-full h-full overflow-hidden" : "sticky top-0 w-full h-screen overflow-hidden bg-black"}>
+      <div className={isMobile ? "absolute inset-0 w-full h-full overflow-hidden" : "sticky top-0 w-full h-screen overflow-hidden bg-black"} style={isMobile ? undefined : { willChange: 'transform', transform: 'translateZ(0)' }}>
         {isMobile ? (
           <img src="/mobile_view/3.webp" alt="Skills Mobile" className="w-full h-full object-cover" />
         ) : (
