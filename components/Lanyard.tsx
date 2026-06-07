@@ -11,7 +11,7 @@ import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true }) {
+export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true, active = true }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
       >
         <Suspense fallback={<Html center><div className="text-white tracking-widest text-sm animate-pulse whitespace-nowrap">LOADING 3D ID...</div></Html>}>
           <ambientLight intensity={Math.PI} />
-          <Physics gravity={gravity}>
-            <Band isMobile={isMobile} />
+          <Physics gravity={gravity} paused={!active}>
+            <Band isMobile={isMobile} active={active} />
           </Physics>
           <Environment blur={0.75}>
             <Lightformer
@@ -71,7 +71,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
   );
 }
 
-function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
+function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, active = true }) {
   const band = useRef(),
     fixed = useRef(),
     j1 = useRef(),
@@ -109,6 +109,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
   }, [hovered, dragged]);
 
   useFrame((state, delta) => {
+    if (!active) return;
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();

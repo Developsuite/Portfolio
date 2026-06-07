@@ -74,7 +74,7 @@ export default function LanyardSection() {
         {isMobile ? (
           <img src="/mobile_view/lanyard.webp" alt="Lanyard Frame" className="w-[70%] max-w-[280px] object-contain opacity-90 -rotate-12 mix-blend-screen" />
         ) : (
-          hasBeenVisible && <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
+          hasBeenVisible && <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} active={isInView} />
         )}
       </div>
 

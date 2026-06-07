@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
@@ -24,6 +24,9 @@ const affiliations = [
 export default function SplineTimelineSection() {
   const headerRef = useRef(null);
   const isMobile = useIsMobile();
+  const splineContainerRef = useRef(null);
+  // Track visibility to pause/resume Spline render loop (NOT for mount/unmount)
+  const isSplineVisible = useInView(splineContainerRef, { margin: "200px" });
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -94,8 +97,9 @@ export default function SplineTimelineSection() {
             />
           </div>
           
-          {/* Spline 3D Scene - Centered — mounts once at page load (during loading screen) and stays mounted */}
+          {/* Spline 3D Scene - Centered — mounts once, render loop paused when off-screen */}
           <div 
+            ref={splineContainerRef}
             className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center scale-75 md:scale-100"
             style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
@@ -105,6 +109,7 @@ export default function SplineTimelineSection() {
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full object-cover"
+              active={isSplineVisible}
             />
           </div>
 
