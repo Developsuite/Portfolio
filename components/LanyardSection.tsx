@@ -17,12 +17,20 @@ const aiTags = [
 ];
 
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function LanyardSection() {
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { margin: "200px" });
+  const isInView = useInView(containerRef, { margin: "400px" });
+  const [hasBeenVisible, setHasBeenVisible] = useState(false);
+
+  // Once visible, stay mounted forever — prevents reload lag
+  useEffect(() => {
+    if (isInView && !hasBeenVisible) {
+      setHasBeenVisible(true);
+    }
+  }, [isInView, hasBeenVisible]);
 
   if (isMobile) {
     return (
@@ -39,10 +47,11 @@ export default function LanyardSection() {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1.2, ease: "easeOut" }}
       className="relative w-full h-[75vh] md:h-[100vh] bg-black overflow-hidden border-t border-white/10"
+      style={{ contain: 'layout style paint' }}
     >
       {/* Cinematic Top Spotlight Glow */}
-      <div className="gpu-accelerated absolute top-[-100px] md:top-[-200px] left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[200px] md:h-[400px] bg-white/[0.07] blur-[60px] md:blur-[100px] rounded-[100%] pointer-events-none z-0" />
-      <div className="gpu-accelerated absolute top-[-50px] md:top-[-100px] left-1/2 -translate-x-1/2 w-[100%] md:w-[300px] h-[100px] md:h-[200px] bg-white/[0.15] blur-[40px] md:blur-[80px] rounded-[100%] pointer-events-none z-0" />
+      <div className="absolute top-[-100px] md:top-[-200px] left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[200px] md:h-[400px] bg-white/[0.07] blur-[60px] md:blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="absolute top-[-50px] md:top-[-100px] left-1/2 -translate-x-1/2 w-[100%] md:w-[300px] h-[100px] md:h-[200px] bg-white/[0.15] blur-[40px] md:blur-[80px] rounded-[100%] pointer-events-none z-0" />
 
       {/* Floating AI/ML Tags — using CSS animation instead of JS for compositor-thread perf */}
       {aiTags.map((tag, index) => (
@@ -54,7 +63,6 @@ export default function LanyardSection() {
             left: tag.left,
             right: tag.right,
             animation: `floatTag 4s ${tag.delay}s ease-in-out infinite`,
-            willChange: 'transform, opacity',
           }}
         >
           {tag.text}
@@ -66,7 +74,7 @@ export default function LanyardSection() {
         {isMobile ? (
           <img src="/mobile_view/lanyard.webp" alt="Lanyard Frame" className="w-[70%] max-w-[280px] object-contain opacity-90 -rotate-12 mix-blend-screen" />
         ) : (
-          isInView && <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
+          hasBeenVisible && <Lanyard position={[0, 0, 25]} gravity={[0, -40, 0]} />
         )}
       </div>
 

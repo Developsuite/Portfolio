@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useRef, useCallback } from 'react'
 const Spline = lazy(() => import('@splinetool/react-spline'))
 
 interface SplineSceneProps {
@@ -9,6 +9,17 @@ interface SplineSceneProps {
 }
 
 export function SplineScene({ scene, className }: SplineSceneProps) {
+  const splineRef = useRef<any>(null);
+
+  // When the Spline app loads, reduce its internal render quality for better performance
+  const onLoad = useCallback((splineApp: any) => {
+    splineRef.current = splineApp;
+    // Spline's internal renderer — lower pixel ratio to reduce GPU load
+    if (splineApp?._renderer) {
+      splineApp._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    }
+  }, []);
+
   return (
     <Suspense 
       fallback={
@@ -20,6 +31,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
       <Spline
         scene={scene}
         className={className}
+        onLoad={onLoad}
       />
     </Suspense>
   )

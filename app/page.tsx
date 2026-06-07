@@ -35,7 +35,9 @@ export default function Home() {
         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>
 
-      <SplineTimelineSection />
+      <div className="section-3d-optimized">
+        <SplineTimelineSection />
+      </div>
 
       {/* Section divider */}
       <div className="max-w-6xl mx-auto px-6">
@@ -56,7 +58,9 @@ export default function Home() {
         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>
 
-      <LanyardSection />
+      <div className="section-3d-optimized">
+        <LanyardSection />
+      </div>
 
       <div className="max-w-6xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />

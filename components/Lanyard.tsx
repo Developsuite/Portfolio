@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer, Text, Html, Decal } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -24,8 +24,10 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position: position, fov: fov }}
-        dpr={[1, isMobile ? 1 : 2]}
-        gl={{ alpha: transparent }}
+        dpr={[1, isMobile ? 1 : 1.5]}
+        frameloop="demand"
+        gl={{ alpha: transparent, powerPreference: 'high-performance', antialias: false }}
+        performance={{ min: 0.5 }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <Suspense fallback={<Html center><div className="text-white tracking-widest text-sm animate-pulse whitespace-nowrap">LOADING 3D ID...</div></Html>}>
@@ -132,6 +134,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
+    // Always invalidate so the demand frameloop keeps rendering while physics is settling
+    state.invalidate();
   });
 
   curve.curveType = 'chordal';

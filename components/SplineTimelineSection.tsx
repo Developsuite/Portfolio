@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
-import { useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const affiliations = [
@@ -25,8 +24,6 @@ const affiliations = [
 export default function SplineTimelineSection() {
   const headerRef = useRef(null);
   const isMobile = useIsMobile();
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { margin: "200px" });
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -59,7 +56,7 @@ export default function SplineTimelineSection() {
   }
 
   return (
-    <section id="leadership" ref={headerRef} className="relative py-12 md:py-24 px-6 lg:px-8 bg-black z-20 overflow-hidden">
+    <section id="leadership" ref={headerRef} className="relative py-12 md:py-24 px-6 lg:px-8 bg-black z-20 overflow-hidden" style={{ contain: 'layout style paint' }}>
       <div className="max-w-7xl mx-auto">
         
         {/* Header - Matches "My Skills" strictly */}
@@ -97,21 +94,18 @@ export default function SplineTimelineSection() {
             />
           </div>
           
-          {/* Spline 3D Scene - Centered */}
+          {/* Spline 3D Scene - Centered — mounts once at page load (during loading screen) and stays mounted */}
           <div 
-            ref={containerRef}
             className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center scale-75 md:scale-100"
             style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
           >
-            {isInView && (
-              <SplineScene 
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full object-cover"
-              />
-            )}
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Zigzag Content Cards - Absolute positioning for all screens */}
