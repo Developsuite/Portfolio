@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
 import { useInView } from "framer-motion";
@@ -27,26 +27,6 @@ export default function SplineTimelineSection() {
   const isMobile = useIsMobile();
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { margin: "200px" });
-
-  const [splineApp, setSplineApp] = useState<any>(null);
-  const [hasRendered, setHasRendered] = useState(false);
-
-  useEffect(() => {
-    if (isInView && !hasRendered) {
-      setHasRendered(true);
-    }
-  }, [isInView, hasRendered]);
-
-  useEffect(() => {
-    if (splineApp) {
-      if (isInView) {
-        if (typeof splineApp.play === 'function') splineApp.play();
-      } else {
-        if (typeof splineApp.stop === 'function') splineApp.stop();
-        else if (typeof splineApp.pause === 'function') splineApp.pause();
-      }
-    }
-  }, [isInView, splineApp]);
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -123,15 +103,13 @@ export default function SplineTimelineSection() {
             className="absolute inset-0 m-auto w-full h-full md:w-[900px] md:h-[600px] z-10 origin-center scale-75 md:scale-100"
             style={{
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)',
-              visibility: isInView ? 'visible' : 'hidden'
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
           >
-            {hasRendered && (
+            {isInView && (
               <SplineScene 
                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                 className="w-full h-full object-cover"
-                onLoad={(app) => setSplineApp(app)}
               />
             )}
           </div>

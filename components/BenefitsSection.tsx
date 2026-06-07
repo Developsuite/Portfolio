@@ -37,24 +37,24 @@ export default function BenefitsSection() {
         whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-[940px] xl:max-w-6xl mx-auto"
+        className="max-w-[940px] xl:max-w-6xl mx-auto transition-all duration-300"
       >
         
         {/* Heading container */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 md:mb-12 xl:mb-16 gap-8 relative">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight" style={{ fontFamily: 'var(--font-outfit), "Outfit", sans-serif', letterSpacing: '-0.04em' }}>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 md:mb-12 xl:mb-16 gap-8 relative transition-all duration-300">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight transition-all duration-300" style={{ fontFamily: 'var(--font-outfit), "Outfit", sans-serif', letterSpacing: '-0.04em' }}>
             Why Kinz?
           </h2>
 
           {/* Doodle Label (visible on wide screens) */}
-          <div className="hidden lg:flex absolute bottom-[-30px] xl:bottom-[-45px] right-[12%] items-center gap-3 xl:gap-4 text-white/50 -rotate-3 select-none">
+          <div className="hidden lg:flex absolute bottom-[-30px] xl:bottom-[-45px] right-[12%] items-center gap-3 xl:gap-4 text-white/50 -rotate-3 select-none transition-all duration-300">
             <span 
-              className="text-2xl xl:text-4xl font-medium tracking-wide" 
+              className="text-2xl xl:text-4xl font-medium tracking-wide transition-all duration-300" 
               style={{ fontFamily: 'var(--font-caveat), "Caveat", cursive' }}
             >
               Hover it
             </span>
-            <svg viewBox="0 0 70 50" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/50 translate-y-2 xl:translate-y-3 w-[50px] h-[40px] xl:w-[70px] xl:h-[50px]">
+            <svg viewBox="0 0 70 50" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/50 translate-y-2 xl:translate-y-3 w-[50px] h-[40px] xl:w-[70px] xl:h-[50px] transition-all duration-300">
               <path d="M10 10 Q 35 12, 50 35" />
               <path d="M38 30 L50 35 L48 20" />
             </svg>
@@ -62,7 +62,7 @@ export default function BenefitsSection() {
         </div>
 
         {/* Benefits Grid */}
-        <div className="flex flex-col lg:flex-row w-full gap-4 h-auto lg:h-[300px] xl:h-[400px]">
+        <div className="flex flex-col lg:flex-row w-full gap-4 h-auto lg:h-[300px] xl:h-[400px] transition-all duration-300">
           {benefits.map((benefit, idx) => {
             const isActive = activeId === benefit.id;
             return (
@@ -72,9 +72,8 @@ export default function BenefitsSection() {
                 whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
-                className={`relative rounded-[20px] xl:rounded-[24px] overflow-hidden cursor-pointer group flex-shrink-0 lg:flex-shrink
+                className={`relative rounded-[20px] xl:rounded-[24px] overflow-hidden cursor-pointer group transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] flex-shrink-0 lg:flex-shrink
                   ${isActive ? 'h-[220px] lg:h-full lg:flex-[2.5]' : 'h-[80px] lg:h-full lg:flex-[1]'}`}
-                style={{ transition: "flex 0.7s cubic-bezier(0.25,0.1,0.25,1), height 0.7s cubic-bezier(0.25,0.1,0.25,1)" }}
                 onMouseEnter={() => setActiveId(benefit.id)}
                 onClick={() => setActiveId(benefit.id)}
               >
@@ -91,12 +90,12 @@ export default function BenefitsSection() {
 
                 {/* Content (Active State) */}
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-5 lg:p-6 xl:p-8 flex flex-col justify-end h-full">
-                  <h3 className={`text-base sm:text-lg lg:text-2xl xl:text-3xl font-bold whitespace-normal lg:whitespace-nowrap mb-1 lg:mb-2 transition-[opacity,transform] duration-500 delay-100
+                  <h3 className={`text-base sm:text-lg lg:text-2xl xl:text-3xl font-bold whitespace-normal lg:whitespace-nowrap mb-1 lg:mb-2 transition-all duration-500 delay-100
                     ${isActive ? 'opacity-100 translate-x-0' : 'opacity-100 lg:opacity-0 lg:-translate-x-8'}`}>
                     {benefit.title}
                   </h3>
                   
-                  <div className={`overflow-hidden transition-[max-height,opacity,margin] duration-500 delay-200
+                  <div className={`overflow-hidden transition-all duration-500 delay-200
                     ${isActive ? 'max-h-40 opacity-100 mt-1 lg:mt-2' : 'max-h-0 opacity-0'}`}>
                     <p className="text-white/70 text-xs lg:text-sm xl:text-base pr-4 lg:pr-12 leading-relaxed">
                       {benefit.description}
