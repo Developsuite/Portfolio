@@ -43,7 +43,7 @@ export default function BenefitsSection() {
         {/* Heading container */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 md:mb-12 xl:mb-16 gap-8 relative transition-all duration-300">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight transition-all duration-300" style={{ fontFamily: 'var(--font-outfit), "Outfit", sans-serif', letterSpacing: '-0.04em' }}>
-            Why Kinz?
+            Why Kinz ul Eman?
           </h2>
 
           {/* Doodle Label (visible on wide screens) */}

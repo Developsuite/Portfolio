@@ -9,36 +9,30 @@ export default function QuoteSection() {
 
   return (
     <section className="relative py-8 md:py-16 px-5 lg:px-8 bg-black z-20 overflow-hidden">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <motion.div
           initial={isMobile ? false : { opacity: 0, y: 50, scale: 0.95 }}
           whileInView={isMobile ? undefined : { opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col lg:flex-row bg-[#0a0a0a] rounded-[24px] lg:rounded-[32px] overflow-hidden border border-white/10 shadow-2xl"
+          className="flex flex-col bg-[#0a0a0a] rounded-[24px] lg:rounded-[32px] overflow-hidden border border-white/10 shadow-2xl relative"
         >
-          {/* Content Container (Left Side) */}
-          <div className="flex-[1.2] p-6 md:p-10 lg:p-12 flex flex-col justify-center relative">
+          {/* Content Container */}
+          <div className="w-full p-6 md:p-10 lg:p-16 flex flex-col justify-center relative items-center text-center">
             {/* Large Decorative Quote */}
-            <span className="text-5xl md:text-7xl font-black text-blue-500 leading-none absolute top-4 left-4 md:top-8 md:left-8 opacity-80 select-none">
+            <span className="text-5xl md:text-7xl font-black text-blue-500 leading-none absolute top-4 left-4 md:top-8 md:left-8 opacity-40 select-none">
               &ldquo;
             </span>
 
-            <div className="relative z-10 mt-3 md:mt-6">
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-white/90 leading-relaxed mb-6 md:mb-8">
+            <div className="relative z-10 mt-3 md:mt-6 w-full">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-white/90 leading-relaxed mb-8 md:mb-10 max-w-3xl mx-auto">
                 I focus on building solutions that are technically strong and useful in real-world situations. My background in AI, databases, and mobile applications allows me to understand product development from idea to implementation.
               </p>
 
-              <div className="h-px w-full bg-white/10 mb-5 md:mb-6" />
+              <div className="h-px w-full max-w-lg mx-auto bg-white/10 mb-6 md:mb-8" />
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-                <div>
-                  <h4 className="text-sm md:text-base font-bold text-white">Kinz ul eman</h4>
-                  <p className="text-white/50 text-[10px] md:text-xs mt-0.5 md:mt-1">AI/ML Engineer & Full-Stack Developer</p>
-                </div>
-
-                {/* 5 Stars */}
-                <div className="flex gap-1">
+              <div className="flex flex-col items-center justify-center gap-3">
+                <div className="flex gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
@@ -50,21 +44,12 @@ export default function QuoteSection() {
                     </svg>
                   ))}
                 </div>
+                <div>
+                  <h4 className="text-base md:text-lg font-bold text-white">Kinz ul eman</h4>
+                  <p className="text-white/50 text-xs md:text-sm mt-1">AI/ML Engineer & Full-Stack Developer</p>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Image Container (Right Side) */}
-          <div className="flex-1 relative min-h-[200px] sm:min-h-[300px] lg:min-h-[400px] overflow-hidden bg-black lg:border-l border-t lg:border-t-0 border-white/5">
-            <Image
-              src="/kin.png"
-              alt="Kinz ul eman"
-              fill
-              className="object-cover object-center"
-            />
-            {/* Bottom Fade Gradient over the image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
           </div>
         </motion.div>
       </div>
