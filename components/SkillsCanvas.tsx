@@ -3,7 +3,6 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLenis } from 'lenis/react';
-import { useInView } from "framer-motion";
 
 const TOTAL_FRAMES = 161;
 const FRAME_PATH = "/SkilledSectionimages/ezgif-frame-";
@@ -21,14 +20,10 @@ export default function SkillsCanvas() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isMobile = useIsMobile();
-  const isInView = useInView(containerRef, { margin: "1000px" });
-  const [framesLoaded, setFramesLoaded] = useState(false);
 
   // Preload frames lazily to avoid blocking initial page load
   useEffect(() => {
     if (isMobile) return;
-    if (!isInView || framesLoaded) return;
-
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     
     // Load first frame immediately
@@ -50,61 +45,39 @@ export default function SkillsCanvas() {
 
     // Defer loading the remaining 160 frames until the browser is idle or after a delay.
     // This ensures the Hero section and initial page load are lightning fast!
-    let chunkStartIndex = 1;
-    const CHUNK_SIZE = 20;
-
-    const loadNextChunk = () => {
-      if (chunkStartIndex >= TOTAL_FRAMES) {
-        setFramesLoaded(true);
-        return;
-      }
-      
-      const end = Math.min(chunkStartIndex + CHUNK_SIZE, TOTAL_FRAMES);
-      for (let i = chunkStartIndex; i < end; i++) {
+    const loadRemainingFrames = () => {
+      for (let i = 1; i < TOTAL_FRAMES; i++) {
         const img = new Image();
         img.src = getFrameSrc(i + 1);
         img.decode().catch(() => {}); // Force background decoding of JPEG
         images[i] = img;
       }
-      
-      chunkStartIndex = end;
-      if (chunkStartIndex < TOTAL_FRAMES) {
-        if ('requestIdleCallback' in window) {
-          (window as any).requestIdleCallback(loadNextChunk, { timeout: 2000 });
-        } else {
-          setTimeout(loadNextChunk, 100);
-        }
-      } else {
-        setFramesLoaded(true);
-      }
     };
 
     if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(() => loadNextChunk(), { timeout: 2000 });
+      (window as any).requestIdleCallback(() => loadRemainingFrames(), { timeout: 2000 });
     } else {
-      setTimeout(loadNextChunk, 1500);
+      setTimeout(loadRemainingFrames, 1500);
     }
-  }, [isMobile, isInView, framesLoaded]);
+  }, [isMobile]);
 
   const updateFrame = useCallback((frameIndex: number) => {
     if (isMobile) return;
     if (frameIndex === currentFrameRef.current && frameIndex !== 0) return;
     currentFrameRef.current = frameIndex;
 
-    requestAnimationFrame(() => {
-      const img = imagesRef.current[frameIndex];
-      if (img && img.complete && img.naturalWidth && canvasRef.current) {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d", { alpha: false }); // Boosts performance
-        if (ctx) {
-          if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-          }
-          ctx.drawImage(img, 0, 0);
+    const img = imagesRef.current[frameIndex];
+    if (img && img.complete && img.naturalWidth && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d", { alpha: false }); // Boosts performance
+      if (ctx) {
+        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
         }
+        ctx.drawImage(img, 0, 0);
       }
-    });
+    }
   }, [isMobile]);
 
   useLenis(() => {
