@@ -54,7 +54,6 @@ export default function HeroCanvas() {
       return () => clearTimeout(timer);
     }
 
-    const INITIAL_BATCH = 30; // Frames needed for immediate display and short scroll
     let loadedCount = 0;
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let framesLoaded = false;
@@ -74,11 +73,11 @@ export default function HeroCanvas() {
 
     const onLoad = () => {
       loadedCount++;
-      const progress = Math.round((loadedCount / INITIAL_BATCH) * 100);
+      const progress = Math.round((loadedCount / TOTAL_FRAMES) * 100);
       setLoadProgress(Math.min(progress, 100));
       
-      // We consider frames loaded once the initial batch is ready
-      if (loadedCount >= INITIAL_BATCH && !framesLoaded) {
+      // We consider frames loaded once ALL 250 hero frames are ready
+      if (loadedCount >= TOTAL_FRAMES && !framesLoaded) {
         framesLoaded = true;
         checkDone();
       }
@@ -105,40 +104,9 @@ export default function HeroCanvas() {
       images[i] = img;
     };
 
-    // 1. Load initial critical batch
-    for (let i = 0; i < INITIAL_BATCH; i++) {
+    // Load ALL Hero frames immediately to prevent any scroll lag
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
       loadFrame(i);
-    }
-
-    // 2. Load the remaining frames in chunks during idle time
-    let chunkStartIndex = INITIAL_BATCH;
-    const CHUNK_SIZE = 20;
-
-    const loadNextChunk = () => {
-      if (chunkStartIndex >= TOTAL_FRAMES) return;
-      const end = Math.min(chunkStartIndex + CHUNK_SIZE, TOTAL_FRAMES);
-      
-      for (let i = chunkStartIndex; i < end; i++) {
-        const img = new Image();
-        img.src = getFrameSrc(i + 1);
-        img.decode().catch(() => {});
-        images[i] = img;
-      }
-      
-      chunkStartIndex = end;
-      if (chunkStartIndex < TOTAL_FRAMES) {
-        if ('requestIdleCallback' in window) {
-          (window as any).requestIdleCallback(loadNextChunk, { timeout: 2000 });
-        } else {
-          setTimeout(loadNextChunk, 100);
-        }
-      }
-    };
-
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(loadNextChunk, { timeout: 2000 });
-    } else {
-      setTimeout(loadNextChunk, 500);
     }
 
     imagesRef.current = images;
