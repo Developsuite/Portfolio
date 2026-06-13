@@ -207,7 +207,7 @@ body {
 
 /* Heavy 3D sections — skip rendering entirely when off-screen */
 .section-3d-optimized {
-  contain: layout style paint;
+  contain: strict;
   content-visibility: auto;
   contain-intrinsic-size: auto 100vh;
 }

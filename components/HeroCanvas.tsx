@@ -54,8 +54,7 @@ export default function HeroCanvas() {
       return () => clearTimeout(timer);
     }
 
-    const SKILLS_PRELOAD_COUNT = 80;
-    const TOTAL_TO_LOAD = TOTAL_FRAMES + SKILLS_PRELOAD_COUNT;
+    const INITIAL_BATCH = 30; // Frames needed for immediate display and short scroll
     let loadedCount = 0;
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let framesLoaded = false;
@@ -67,25 +66,29 @@ export default function HeroCanvas() {
       }
     };
 
-    // Force loader to show for at least 2.5 seconds for the cinematic effect
+    // Force loader to show for at least 1.5 seconds for the cinematic effect (reduced from 2.5s)
     setTimeout(() => {
       minTimeElapsed = true;
       checkDone();
-    }, 2500);
+    }, 1500);
 
     const onLoad = () => {
       loadedCount++;
-      const progress = Math.round((loadedCount / TOTAL_TO_LOAD) * 100);
+      const progress = Math.round((loadedCount / INITIAL_BATCH) * 100);
       setLoadProgress(Math.min(progress, 100));
-      if (loadedCount >= TOTAL_TO_LOAD && !framesLoaded) {
+      
+      // We consider frames loaded once the initial batch is ready
+      if (loadedCount >= INITIAL_BATCH && !framesLoaded) {
         framesLoaded = true;
         checkDone();
       }
     };
 
-    // 1. Load ALL 250 frames of Hero section
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
+    const loadFrame = (i: number) => {
       const img = new Image();
+      if (i === 0) {
+        img.fetchPriority = "high";
+      }
       img.src = getFrameSrc(i + 1);
       
       // Force background decoding to prevent scroll lag
@@ -100,32 +103,56 @@ export default function HeroCanvas() {
         }
       });
       images[i] = img;
+    };
+
+    // 1. Load initial critical batch
+    for (let i = 0; i < INITIAL_BATCH; i++) {
+      loadFrame(i);
     }
 
-    // 2. Load the first 80 frames of the Skills section so they are cached
-    for (let i = 0; i < SKILLS_PRELOAD_COUNT; i++) {
-      const num = String(i + 1).padStart(3, "0");
-      const img = new Image();
-      img.src = `/SkilledSectionimages/ezgif-frame-${num}.jpg`;
-      img.decode().then(onLoad).catch(() => {
-        if (img.complete) onLoad();
-        else {
-          img.onload = onLoad;
-          img.onerror = onLoad;
+    // 2. Load the remaining frames in chunks during idle time
+    let chunkStartIndex = INITIAL_BATCH;
+    const CHUNK_SIZE = 20;
+
+    const loadNextChunk = () => {
+      if (chunkStartIndex >= TOTAL_FRAMES) return;
+      const end = Math.min(chunkStartIndex + CHUNK_SIZE, TOTAL_FRAMES);
+      
+      for (let i = chunkStartIndex; i < end; i++) {
+        const img = new Image();
+        img.src = getFrameSrc(i + 1);
+        img.decode().catch(() => {});
+        images[i] = img;
+      }
+      
+      chunkStartIndex = end;
+      if (chunkStartIndex < TOTAL_FRAMES) {
+        if ('requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(loadNextChunk, { timeout: 2000 });
+        } else {
+          setTimeout(loadNextChunk, 100);
         }
-      });
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(loadNextChunk, { timeout: 2000 });
+    } else {
+      setTimeout(loadNextChunk, 500);
     }
 
     imagesRef.current = images;
 
     // Set first frame once loaded
-    const firstImg = images[0];
     const setFirst = () => {
       updateFrame(0);
     };
-    if (firstImg.complete) {
+    
+    // Need to check if it's already there since we're setting it synchronously above
+    const firstImg = images[0];
+    if (firstImg && firstImg.complete) {
       setFirst();
-    } else {
+    } else if (firstImg) {
       firstImg.addEventListener("load", setFirst, { once: true });
     }
   }, [isMobile]);
@@ -136,20 +163,22 @@ export default function HeroCanvas() {
     if (frameIndex === currentFrameRef.current && frameIndex !== 0) return; // Allow initial draw (index 0)
     currentFrameRef.current = frameIndex;
 
-    const img = imagesRef.current[frameIndex];
-    if (img && img.complete && img.naturalWidth && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d", { alpha: false }); // Optimization: disables transparency
-      
-      if (ctx) {
-        // Match canvas internal resolution to the image
-        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-          canvas.width = img.naturalWidth;
-          canvas.height = img.naturalHeight;
+    requestAnimationFrame(() => {
+      const img = imagesRef.current[frameIndex];
+      if (img && img.complete && img.naturalWidth && canvasRef.current) {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d", { alpha: false }); // Optimization: disables transparency
+        
+        if (ctx) {
+          // Match canvas internal resolution to the image
+          if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+          }
+          ctx.drawImage(img, 0, 0);
         }
-        ctx.drawImage(img, 0, 0);
       }
-    }
+    });
   }, [isMobile]);
 
   // Scroll handler synced to Lenis

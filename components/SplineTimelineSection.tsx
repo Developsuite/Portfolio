@@ -25,8 +25,10 @@ export default function SplineTimelineSection() {
   const headerRef = useRef(null);
   const isMobile = useIsMobile();
   const splineContainerRef = useRef(null);
-  // Track visibility to pause/resume Spline render loop (NOT for mount/unmount)
+  // Track visibility to pause/resume Spline render loop
   const isSplineVisible = useInView(splineContainerRef, { margin: "200px" });
+  // Track if it has ever been near viewport to delay initial mount
+  const hasBeenVisible = useInView(splineContainerRef, { margin: "800px", once: true });
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -106,11 +108,13 @@ export default function SplineTimelineSection() {
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 70%)'
             }}
           >
-            <SplineScene 
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full object-cover"
-              active={isSplineVisible}
-            />
+            {hasBeenVisible && (
+              <SplineScene 
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full object-cover"
+                active={isSplineVisible}
+              />
+            )}
           </div>
 
           {/* Zigzag Content Cards - Absolute positioning for all screens */}
